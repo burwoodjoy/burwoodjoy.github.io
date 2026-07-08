@@ -110,20 +110,39 @@
     overflow: hidden;
   }
   .hero-banner {
+    position: relative;
     width: 100%;
     aspect-ratio: 21 / 8;
     overflow: hidden;
     background: linear-gradient(120deg, #ffe0ee 0%, #ffe9f2 40%, #fff2f8 60%, #ffe0ee 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
-  .hero-banner img {
-    width: 100%;
+  .hero-banner-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 30%;
+    filter: blur(40px) saturate(1.15) brightness(1.05);
+    transform: scale(1.2);
+  }
+  .hero-banner-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255,158,196,0.35), rgba(255,214,235,0.15) 50%, rgba(255,158,196,0.35));
+  }
+  .hero-banner-fg {
+    position: relative;
+    z-index: 1;
     height: 100%;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
     object-fit: contain;
     object-position: center center;
-    display: block;
+    box-shadow: 0 0 60px 10px rgba(255,255,255,0.35);
+  }
+  @media (max-width: 640px) {
+    .hero-banner-fg { height: auto; width: 100%; }
   }
   .hero-text { padding: 36px 28px 44px; }
   .hero .badge {
@@ -248,9 +267,9 @@
 <!-- ===== 상단 메뉴바 ===== -->
 <header>
   <div class="nav-inner">
-    <div class="brand">🏥 오블리브 서울 오리진</div>
+    <div class="brand">🏥 오블리브의원 서울 오리진</div>
     <nav>
-      <button class="navlink active" data-target="home">오블리브 서울 오리진</button>
+      <button class="navlink active" data-target="home">오블리브의원 서울 오리진</button>
       <button class="navlink" data-target="skin">피부센터</button>
       <button class="navlink" data-target="body">체형센터</button>
       <button class="navlink" data-target="scalp">두피센터</button>
@@ -262,11 +281,13 @@
 
 <main>
 
-  <!-- ===== 오블리브 서울 오리진 (임시 페이지 내용) ===== -->
+  <!-- ===== 오블리브의원 서울 오리진 (임시 페이지 내용) ===== -->
   <section class="panel show" id="home">
     <div class="hero">
       <div class="hero-banner">
-        <img src="hero-model.png" alt="희고 맑은 피부의 K-pop 아이돌st 여성 모델 이미지" />
+        <div class="hero-banner-bg" style="background-image:url('hero-model.png')"></div>
+        <div class="hero-banner-tint"></div>
+        <img class="hero-banner-fg" src="hero-model.png" alt="희고 맑은 피부의 K-pop 아이돌st 여성 모델 이미지" />
       </div>
       <div class="hero-text">
         <span class="badge">✨ 리뉴얼 임시 테스트 페이지</span>
