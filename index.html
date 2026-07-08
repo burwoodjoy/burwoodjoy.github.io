@@ -1,327 +1,50 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>오블리브의원 서울 오리진</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --pink: #ff9ec4;
-    --pink-deep: #ff6fa5;
-    --blue: #8ec9f2;
-    --mint: #9fe0d0;
-    --yellow: #ffd47a;
-    --purple: #c3aef0;
-    --cream: #fff6fb;
-    --ink: #5b4a55;
-    --soft-shadow: 0 10px 30px rgba(255, 130, 175, 0.25);
-  }
+<!-- 1. 상단 인트로 및 청초한 피부과 모델 이미지 섹션 -->
+<div style="background: #fff; border-radius: 20px; padding: 40px; text-align: center; box-shadow: 0 4px 20px rgba(255,182,193,0.2); margin-bottom: 30px; position: relative; overflow: hidden;">
+    <div style="background: #ffe6eb; color: #ff6b8b; display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-bottom: 15px;">✨ 리뉴얼 임시 테스트 페이지</div>
+    <h1 style="color: #d84b6b; margin-bottom: 10px; font-size: 28px;">오블리브의원 서울 오리진</h1>
+    <p style="color: #666; font-size: 16px; margin-bottom: 5px;">안녕하세요! Joy 마케터의 깃허브 연습 공간입니다.</p>
+    <p style="color: #666; font-size: 16px; margin-bottom: 25px;">클로드로 기획한 내용을 나중에 여기에 담아갈 예정이에요. 🌸</p>
+    
+    <!-- 피부과 모델 느낌의 청초한 여성 얼굴 이미지 (Unsplash 라이선스 프리 이미지) -->
+    <div style="width: 100%; max-width: 500px; height: 300px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800" alt="Clean and pure skincare model" style="width: 100%; height: 100%; object-fit: crop;">
+    </div>
+</div>
 
-  * { box-sizing: border-box; }
+<!-- 2. 하단 주요 콘텐츠 섹션 (요청하신 순서대로 재배치) -->
+<div style="background: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(255,182,193,0.2); margin-bottom: 30px;">
+    <h2 style="color: #d84b6b; font-size: 22px; margin-bottom: 25px;">📌 주요 메뉴 안내</h2>
 
-  body {
-    margin: 0;
-    font-family: 'Gowun Dodum', sans-serif;
-    color: var(--ink);
-    background: linear-gradient(160deg, #fff0f7 0%, #f3f0ff 45%, #eafaf6 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-  }
-
-  h1, h2, h3, .brand, .navlink { font-family: 'Jua', sans-serif; }
-
-  /* ===== 상단 메뉴바 ===== */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(180, 150, 200, 0.18);
-    padding: 14px 24px;
-  }
-
-  .nav-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .brand {
-    font-size: 22px;
-    color: var(--pink-deep);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-  }
-
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .navlink {
-    border: none;
-    cursor: pointer;
-    font-size: 15px;
-    color: var(--ink);
-    background: transparent;
-    padding: 10px 16px;
-    border-radius: 999px;
-    transition: all 0.2s ease;
-  }
-  .navlink:hover { background: #ffe3ef; color: var(--pink-deep); transform: translateY(-2px); }
-  .navlink.active {
-    background: linear-gradient(180deg, #ffa9cd, #ff7fb0);
-    color: #fff;
-    box-shadow: 0 6px 14px rgba(255, 120, 170, 0.4);
-  }
-
-  /* ===== 본문 영역 ===== */
-  main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-
-  .panel { display: none; animation: fade 0.4s ease; }
-  .panel.show { display: block; }
-  @keyframes fade { from { opacity: 0; transform: translateY(10px);} to {opacity:1; transform:none;} }
-
-  /* ===== 히어로 ===== */
-  .hero {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 34px;
-    padding: 48px 28px;
-    box-shadow: var(--soft-shadow);
-    margin-bottom: 32px;
-  }
-  .hero .badge {
-    display: inline-block;
-    background: #fff0f7;
-    color: var(--pink-deep);
-    padding: 6px 16px;
-    border-radius: 999px;
-    font-size: 14px;
-    margin-bottom: 16px;
-  }
-  .hero h1 { font-size: 34px; margin: 8px 0 14px; color: #ff5f9e; }
-  .hero p { font-size: 17px; line-height: 1.7; margin: 0 auto; max-width: 620px; }
-
-  /* ===== 카드 ===== */
-  .card {
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 28px;
-    padding: 34px 30px;
-    box-shadow: var(--soft-shadow);
-    margin-bottom: 26px;
-  }
-  .card h2 { font-size: 24px; margin: 0 0 20px; color: var(--pink-deep); }
-
-  /* ===== 뽀용 버튼 ===== */
-  .btn-row { display: flex; flex-wrap: wrap; gap: 16px; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #fff;
-    font-family: 'Jua', sans-serif;
-    font-size: 17px;
-    padding: 15px 26px;
-    border-radius: 999px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12), inset 0 2px 4px rgba(255,255,255,0.5);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn:hover { transform: translateY(-3px) scale(1.03); }
-  .btn:active { transform: translateY(1px) scale(0.98); }
-  .btn-call { background: linear-gradient(180deg, #ff9ec4, #ff6fa5); }
-  .btn-info { background: linear-gradient(180deg, #8ec9f2, #5aa9e6); }
-  .btn-map  { background: linear-gradient(180deg, #ffd47a, #ffb547); }
-
-  .menu-line {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin: 14px 0;
-    font-size: 16px;
-  }
-
-  .note {
-    margin-top: 26px;
-    font-size: 14px;
-    color: #a897a3;
-    background: #fdf4fa;
-    border-radius: 18px;
-    padding: 16px 20px;
-    line-height: 1.6;
-  }
-
-  /* ===== 준비중 섹션 ===== */
-  .soon {
-    text-align: center;
-    padding: 70px 28px;
-  }
-  .soon .emoji { font-size: 64px; }
-  .soon h2 { font-size: 28px; margin: 16px 0 10px; }
-  .soon p { font-size: 16px; line-height: 1.7; color: #8a7a86; }
-  .pill {
-    display: inline-block;
-    margin-top: 18px;
-    background: #ffe3ef;
-    color: var(--pink-deep);
-    padding: 8px 20px;
-    border-radius: 999px;
-    font-family: 'Jua', sans-serif;
-  }
-
-  footer {
-    text-align: center;
-    padding: 30px 20px 50px;
-    color: #b8a7b3;
-    font-size: 14px;
-  }
-
-  @media (max-width: 640px) {
-    .brand { font-size: 18px; }
-    .navlink { font-size: 13px; padding: 8px 12px; }
-    .hero h1 { font-size: 26px; }
-  }
-</style>
-</head>
-<body>
-
-<!-- ===== 상단 메뉴바 ===== -->
-<header>
-  <div class="nav-inner">
-    <div class="brand">🏥 오블리브 서울 오리진</div>
-    <nav>
-      <button class="navlink active" data-target="home">오블리브 서울 오리진</button>
-      <button class="navlink" data-target="skin">피부센터</button>
-      <button class="navlink" data-target="body">체형센터</button>
-      <button class="navlink" data-target="scalp">두피센터</button>
-      <button class="navlink" data-target="nail">발톱센터</button>
-      <button class="navlink" data-target="semi">반영구센터</button>
-    </nav>
-  </div>
-</header>
-
-<main>
-
-  <!-- ===== 오블리브 서울 오리진 (임시 페이지 내용) ===== -->
-  <section class="panel show" id="home">
-    <div class="hero">
-      <span class="badge">✨ 리뉴얼 임시 테스트 페이지</span>
-      <h1>오블리브의원 서울 오리진</h1>
-      <p>안녕하세요! Joy 마케터의 깃허브 연습 공간입니다.<br />클로드로 기획한 내용을 나중에 여기에 담아갈 예정이에요. 🌸</p>
+    <!-- [순서 1] 진료안내 메뉴 -->
+    <div style="margin-bottom: 35px; padding-bottom: 20px; border-bottom: 1px dashed #ffd1dc;">
+        <span style="background: #4a90e2; color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 12px;">🏥 진료안내</span>
+        <p style="color: #444; font-size: 16px; padding-left: 10px; font-weight: 500;">: 두피부터 발끝까지 전신 메디컬 케어 및 웰니스 프로그램</p>
     </div>
 
-    <div class="card">
-      <h2>📌 주요 메뉴 안내</h2>
+    <!-- [순서 2] 오시는길 메뉴 및 구글 지도 연결 -->
+    <div style="margin-bottom: 35px; padding-bottom: 20px; border-bottom: 1px dashed #ffd1dc;">
+        <span style="background: #f5a623; color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 12px;">📍 오시는길</span>
+        <p style="color: #444; font-size: 16px; padding-left: 10px; font-weight: 500; margin-bottom: 15px;">: 서울 오리진점 (서울특별시 종로구 청계천로 93)</p>
+        
+        <!-- 종로구 청계천로 93 구글 지도 임베드 -->
+        <div style="width: 100%; height: 250px; border-radius: 12px; overflow: hidden; border: 1px solid #ffd1dc;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.5186675037255!2d126.98501067642646!3d37.566416172038745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e99dfd96d5%3A0x6b2bc319520cb600!2z7ISc7Jq47666qy86rWsIOyymeqzheyynOuhnCA5Mw!5e0!3m2!1sko!2skr!4v1710000000000!5m2!1sko!2skr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
 
-      <div class="btn-row">
-        <a class="btn btn-call" href="tel:02-123-4567">📞 전화걸기</a>
-        <a class="btn btn-info" href="https://oblivseoul-sveltekit-staging.jh-bo.workers.dev/" target="_blank" rel="noopener">🏥 진료안내</a>
-        <a class="btn btn-map" href="https://oblivseoul-sveltekit-staging.jh-bo.workers.dev/beauty/information/location" target="_blank" rel="noopener">📍 오시는길</a>
-      </div>
+    <!-- [순서 3] 전화걸기 메뉴 및 오른쪽 카톡상담 메뉴 배치 -->
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <!-- 전화걸기 버튼 -->
+        <a href="tel:02-123-4567" style="flex: 1; min-width: 160px; background: #ff6b8b; color: #fff; text-align: center; padding: 15px; border-radius: 12px; font-weight: bold; text-decoration: none; font-size: 16px; box-shadow: 0 4px 10px rgba(255,107,139,0.3); display: flex; align-items: center; justify-content: center; gap: 8px;">
+            📞 전화걸기 (02-123-4567)
+        </a>
+        <!-- 카톡상담 버튼 (새롭게 추가) -->
+        <a href="https://pf.kakao.com" target="_blank" style="flex: 1; min-width: 160px; background: #fee500; color: #3c1e1e; text-align: center; padding: 15px; border-radius: 12px; font-weight: bold; text-decoration: none; font-size: 16px; box-shadow: 0 4px 10px rgba(254,229,0,0.3); display: flex; align-items: center; justify-content: center; gap: 8px;">
+            💬 카톡상담 (실시간 문의)
+        </a>
+    </div>
 
-      <div style="margin-top:24px; line-height:1.9; font-size:16px;">
-        <div class="menu-line">📞 <b>전화</b> : 02-123-4567</div>
-        <div class="menu-line">🏥 <b>진료안내</b> : 두피부터 발끝까지 전신 메디컬 케어</div>
-        <div class="menu-line">📍 <b>오시는길</b> : 서울 오리진점 (종로구)</div>
-      </div>
-
-      <div class="note">
+    <div style="margin-top: 30px; font-size: 13px; color: #999; text-align: center; background: #fafafa; padding: 10px; border-radius: 8px;">
         이 페이지는 상급자님이 웹 프레임워크를 연동하기 전, 마케터가 깃허브 시스템을 익히기 위한 예시 화면입니다.
-      </div>
     </div>
-  </section>
-
-  <!-- ===== 피부센터 ===== -->
-  <section class="panel" id="skin">
-    <div class="card soon">
-      <div class="emoji">💆‍♀️</div>
-      <h2>피부센터</h2>
-      <p>맑고 건강한 피부를 위한 오블리브의 피부센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
-    </div>
-  </section>
-
-  <!-- ===== 체형센터 ===== -->
-  <section class="panel" id="body">
-    <div class="card soon">
-      <div class="emoji">🧘‍♀️</div>
-      <h2>체형센터</h2>
-      <p>몸의 균형을 바로잡는 체형센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
-    </div>
-  </section>
-
-  <!-- ===== 두피센터 ===== -->
-  <section class="panel" id="scalp">
-    <div class="card soon">
-      <div class="emoji">💇‍♀️</div>
-      <h2>두피센터</h2>
-      <p>건강한 두피와 모발을 위한 두피센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
-    </div>
-  </section>
-
-  <!-- ===== 발톱센터 ===== -->
-  <section class="panel" id="nail">
-    <div class="card soon">
-      <div class="emoji">🦶</div>
-      <h2>발톱센터</h2>
-      <p>발끝까지 케어하는 발톱센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
-    </div>
-  </section>
-
-  <!-- ===== 반영구센터 ===== -->
-  <section class="panel" id="semi">
-    <div class="card soon">
-      <div class="emoji">💗</div>
-      <h2>반영구센터</h2>
-      <p>자연스러운 아름다움을 위한 반영구센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  © 오블리브의원 서울 오리진 · 마케팅팀 깃허브 연습 페이지 🌷
-</footer>
-
-<script>
-  const links = document.querySelectorAll('.navlink');
-  const panels = document.querySelectorAll('.panel');
-
-  links.forEach(link => {
-    link.addEventListener('click', () => {
-      const target = link.dataset.target;
-
-      links.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-
-      panels.forEach(p => p.classList.remove('show'));
-      document.getElementById(target).classList.add('show');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-</script>
-
-</body>
-</html>
+</div>
