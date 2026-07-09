@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>OBLIV × UH.SUITE 투숙객 전용 바우처</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --black: #0c0c0e;
+    --charcoal: #17161a;
+    --charcoal-2: #1f1e22;
+    --gold: #c9a75e;
+    --gold-light: #e8d9b0;
+    --gold-deep: #a4813f;
+    --ivory: #f6f2ea;
+    --muted: #a9a39a;
+    --line: rgba(201, 167, 94, 0.28);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--black);
+    color: var(--ivory);
+    font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding-bottom: 84px; /* space for sticky CTA */
+  }
+
+  .serif { font-family: 'Noto Serif KR', serif; }
+  .display { font-family: 'Cormorant Garamond', serif; }
+
+  .wrap { max-width: 480px; margin: 0 auto; padding: 0 22px; }
+
+  a { color: inherit; }
+
+  /* ===== 언어 선택 바 ===== */
+  .lang-bar {
+    position: sticky;
+    top: 0;
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: rgba(12,12,14,0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .lang-btn {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s ease;
+  }
+  .lang-btn.active {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    border-color: transparent;
+    font-weight: 700;
+  }
+
+  /* ===== 상단 협업 헤더 ===== */
+  .collab-header {
+    text-align: center;
+    padding: 40px 22px 34px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.16), transparent 60%),
+      var(--black);
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    border: 1px solid var(--line);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .collab-lockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .collab-lockup .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    letter-spacing: 1.5px;
+    color: var(--ivory);
+    line-height: 1.4;
+  }
+  .collab-lockup .x {
+    font-size: 15px;
+    color: var(--gold);
+  }
+  .collab-sub {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+  .collab-title {
+    margin-top: 14px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ivory);
+  }
+  .gold-rule {
+    width: 46px;
+    height: 1px;
+    background: var(--gold);
+    margin: 20px auto;
+  }
+
+  /* ===== 섹션 공통 ===== */
+  .section { padding: 46px 0; }
+  .section.alt { background: var(--charcoal); }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ivory);
+    margin: 0 0 12px;
+  }
+  .section-desc {
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+
+  /* ===== 기기 카드 ===== */
+  .device-card {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 34px 22px;
+    background: linear-gradient(160deg, rgba(201,167,94,0.08), transparent 60%);
+    text-align: center;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .device-rings {
+    width: 118px;
+    height: 118px;
+    margin: 0 auto 18px;
+    position: relative;
+  }
+  .device-rings .ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    opacity: 0.35;
+  }
+  .device-rings .ring:nth-child(2) { inset: 16px; opacity: 0.55; }
+  .device-rings .ring:nth-child(3) { inset: 32px; opacity: 0.8; }
+  .device-rings .lens {
+    position: absolute;
+    inset: 42px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #3a3a3f, #0c0c0e 70%);
+    border: 1px solid var(--gold-light);
+  }
+  .device-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+  .device-tagline {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .stat-chip {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 6px;
+    text-align: center;
+    background: var(--charcoal-2);
+  }
+  .stat-chip .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-chip .label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== 진단 예시 그리드 ===== */
+  .diag-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .diag-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 14px;
+    text-align: center;
+    background: var(--charcoal-2);
+  }
+  .diag-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .diag-name {
+    font-size: 13.5px;
+    color: var(--ivory);
+    font-weight: 500;
+  }
+  .diag-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  /* ===== 이용약관 ===== */
+  .terms-card {
+    border-left: 2px solid var(--gold);
+    padding: 4px 0 4px 18px;
+  }
+  .terms-card ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .terms-card li {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .terms-card li:last-child { margin-bottom: 0; }
+
+  /* ===== 시술 할인권 (Part 2) ===== */
+  .badge-soon {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--black);
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .procedure-card {
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .procedure-card:last-child { margin-bottom: 0; }
+  .procedure-name {
+    font-size: 14.5px;
+    color: var(--ivory);
+    font-weight: 500;
+  }
+  .procedure-name .tbd {
+    display: block;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 3px;
+  }
+  .procedure-discount {
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 64px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .procedure-discount .pct {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+  }
+  .procedure-discount .pct-label {
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== 이용안내 (하단) ===== */
+  .info-card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 22px;
+    background: var(--charcoal-2);
+  }
+  .info-row {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13.5px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .icon { color: var(--gold); flex: 0 0 20px; }
+  .info-row .k { color: var(--muted); flex: 0 0 76px; }
+  .info-row .v { color: var(--ivory); }
+
+  footer {
+    text-align: center;
+    padding: 40px 22px 20px;
+    font-size: 11.5px;
+    color: #6f6a62;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== 하단 고정 CTA ===== */
+  .sticky-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 200;
+    background: rgba(12,12,14,0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+  }
+  .sticky-cta a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px;
+    border-radius: 999px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== 언어 선택 바 ===== -->
+  <div class="lang-bar" role="tablist" aria-label="Language selector">
+    <button class="lang-btn active" data-lang="ko" onclick="setLang('ko')">한국어</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">ENG</button>
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" data-lang="ja" onclick="setLang('ja')">日本語</button>
+  </div>
+
+  <!-- ===== 협업 헤더 ===== -->
+  <div class="collab-header">
+    <span class="eyebrow">SPECIAL COLLABORATION</span>
+    <div class="collab-lockup">
+      <span class="brand">OBLIV CLINIC<br />SEOUL ORIGIN</span>
+      <span class="x">✕</span>
+      <span class="brand">UH.SUITE<br />SEOUL INSADONG</span>
+    </div>
+    <div class="gold-rule"></div>
+    <div class="collab-sub" data-i18n="collabSub">UH.SUITE SEOUL INSADONG 투숙객만을 위한</div>
+    <div class="collab-title serif" data-i18n="collabTitle">웰컴 뷰티 바우처</div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ===== PART 1. 마크뷰 ===== -->
+    <div class="section">
+      <div class="section-eyebrow" data-i18n="sec1Eyebrow">PART 1 · 마크뷰 무료체험권</div>
+      <h2 class="section-title serif" data-i18n="sec1Title">마크뷰 정밀 피부 진단 프로그램</h2>
+      <p class="section-desc" data-i18n="sec1Desc">1,800만 화소 4대 광원 AI 카메라가 피부 표면부터 속까지 정밀하게 촬영·분석해, 지금 내 피부 상태를 객관적인 데이터로 확인할 수 있는 프로그램입니다.</p>
+
+      <div class="device-card">
+        <div class="device-rings">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="lens"></div>
+        </div>
+        <div class="device-name display">MARK VIEW</div>
+        <div class="device-tagline" data-i18n="deviceTagline">AI 정밀 피부 진단 카메라</div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-chip">
+          <span class="num" data-i18n="statNum1">1,800만</span>
+          <span class="label" data-i18n="statLabel1">화소</span>
+        </div>
+        <div class="stat-chip">
+          <span class="num" data-i18n="statNum2">4대</span>
+          <span class="label" data-i18n="statLabel2">광원 시스템</span>
+        </div>
+        <div class="stat-chip">
+          <span class="num">AI</span>
+          <span class="label" data-i18n="statLabel3">정밀 분석</span>
+        </div>
+      </div>
+
+      <div class="diag-grid">
+        <div class="diag-card">
+          <div class="diag-icon">◐</div>
+          <div class="diag-name" data-i18n="diagName1">색소 · 잡티</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
+        <div class="diag-card">
+          <div class="diag-icon">◈</div>
+          <div class="diag-name" data-i18n="diagName2">모공 상태</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
+        <div class="diag-card">
+          <div class="diag-icon">≋</div>
+          <div class="diag-name" data-i18n="diagName3">주름 · 탄력</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
+        <div class="diag-card">
+          <div class="diag-icon">◎</div>
+          <div class="diag-name" data-i18n="diagName4">수분 · 유분</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 이용약관 ===== -->
+    <div class="section alt">
+      <div class="section-eyebrow" data-i18n="termsEyebrow">이용 약관</div>
+      <div class="terms-card">
+        <ul>
+          <li data-i18n="termsLi1">본 바우처는 UH.SUITE SEOUL INSADONG 투숙객 전용 혜택으로, 타인에게 양도 및 판매가 불가능합니다.</li>
+          <li data-i18n="termsLi2">사전 예약제로 운영되오니 방문 전 반드시 원내로 예약 문의 부탁드립니다.</li>
+          <li data-i18n="termsLi3">진단 후 추가적인 개별 의료 시술이나 처방이 진행될 경우 별도의 비용이 발생할 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== PART 2. 시술 할인권 ===== -->
+    <div class="section">
+      <div class="section-eyebrow" data-i18n="sec2Eyebrow">PART 2 · 병원 시술 할인권</div>
+      <h2 class="section-title serif" data-i18n="sec2Title">투숙객 전용 시술 혜택</h2>
+      <span class="badge-soon" data-i18n="badgeSoon">세부 내용 추후 공개 예정</span>
+
+      <div class="procedure-card">
+        <div class="procedure-name"><span data-i18n="procName">시술명 예정</span><span class="tbd" data-i18n="procSub">상세 내용 업데이트 예정</span></div>
+        <div class="procedure-discount"><span class="pct">-%</span><span class="pct-label" data-i18n="pctLabel">DC</span></div>
+      </div>
+      <div class="procedure-card">
+        <div class="procedure-name"><span data-i18n="procName">시술명 예정</span><span class="tbd" data-i18n="procSub">상세 내용 업데이트 예정</span></div>
+        <div class="procedure-discount"><span class="pct">-%</span><span class="pct-label" data-i18n="pctLabel">DC</span></div>
+      </div>
+      <div class="procedure-card">
+        <div class="procedure-name"><span data-i18n="procName">시술명 예정</span><span class="tbd" data-i18n="procSub">상세 내용 업데이트 예정</span></div>
+        <div class="procedure-discount"><span class="pct">-%</span><span class="pct-label" data-i18n="pctLabel">DC</span></div>
+      </div>
+    </div>
+
+    <!-- ===== 이용안내 ===== -->
+    <div class="section alt">
+      <div class="section-eyebrow" data-i18n="infoEyebrow">이용 안내</div>
+      <div class="info-card">
+        <div class="info-row">
+          <div class="icon">☎</div>
+          <div class="k" data-i18n="infoK1">사용 문의</div>
+          <div class="v"><a href="tel:02-6956-3438">02-6956-3438</a></div>
+        </div>
+        <div class="info-row">
+          <div class="icon">🕐</div>
+          <div class="k" data-i18n="infoK2">운영 시간</div>
+          <div class="v" data-i18n="infoV2">월-금 10:00 - 21:00<br />토-일 10:00 - 19:00</div>
+        </div>
+        <div class="info-row">
+          <div class="icon">📅</div>
+          <div class="k" data-i18n="infoK3">이용 기간</div>
+          <div class="v" data-i18n="infoV3">투숙 기간 내 한정</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    OBLIV CLINIC SEOUL ORIGIN × UH.SUITE SEOUL INSADONG<br />
+    <span data-i18n="footerLine2">본 페이지는 투숙객 전용 바우처 안내를 위해 제작되었습니다.</span>
+  </footer>
+
+  <div class="sticky-cta">
+    <a href="tel:02-6956-3438"><span data-i18n="ctaText">☎ 예약 문의하기</span></a>
+  </div>
+
+<script>
+  var translations = {
+    ko: {
+      collabSub: "UH.SUITE SEOUL INSADONG 투숙객만을 위한",
+      collabTitle: "웰컴 뷰티 바우처",
+      sec1Eyebrow: "PART 1 · 마크뷰 무료체험권",
+      sec1Title: "마크뷰 정밀 피부 진단 프로그램",
+      sec1Desc: "1,800만 화소 4대 광원 AI 카메라가 피부 표면부터 속까지 정밀하게 촬영·분석해, 지금 내 피부 상태를 객관적인 데이터로 확인할 수 있는 프로그램입니다.",
+      deviceTagline: "AI 정밀 피부 진단 카메라",
+      statNum1: "1,800만", statLabel1: "화소",
+      statNum2: "4대", statLabel2: "광원 시스템",
+      statLabel3: "정밀 분석",
+      diagName1: "색소 · 잡티", diagName2: "모공 상태", diagName3: "주름 · 탄력", diagName4: "수분 · 유분",
+      diagSub: "진단 예시",
+      termsEyebrow: "이용 약관",
+      termsLi1: "본 바우처는 UH.SUITE SEOUL INSADONG 투숙객 전용 혜택으로, 타인에게 양도 및 판매가 불가능합니다.",
+      termsLi2: "사전 예약제로 운영되오니 방문 전 반드시 원내로 예약 문의 부탁드립니다.",
+      termsLi3: "진단 후 추가적인 개별 의료 시술이나 처방이 진행될 경우 별도의 비용이 발생할 수 있습니다.",
+      sec2Eyebrow: "PART 2 · 병원 시술 할인권",
+      sec2Title: "투숙객 전용 시술 혜택",
+      badgeSoon: "세부 내용 추후 공개 예정",
+      procName: "시술명 예정",
+      procSub: "상세 내용 업데이트 예정",
+      pctLabel: "DC",
+      infoEyebrow: "이용 안내",
+      infoK1: "사용 문의", infoK2: "운영 시간", infoK3: "이용 기간",
+      infoV2: "월-금 10:00 - 21:00<br />토-일 10:00 - 19:00",
+      infoV3: "투숙 기간 내 한정",
+      footerLine2: "본 페이지는 투숙객 전용 바우처 안내를 위해 제작되었습니다.",
+      ctaText: "☎ 예약 문의하기"
+    },
+    en: {
+      collabSub: "Exclusively for guests of UH.SUITE SEOUL INSADONG",
+      collabTitle: "Welcome Beauty Voucher",
+      sec1Eyebrow: "PART 1 · Mark View Free Trial",
+      sec1Title: "Mark View Precision Skin Diagnosis Program",
+      sec1Desc: "An 18-megapixel AI camera with 4 light sources precisely captures and analyzes your skin from surface to depth, letting you check your current skin condition with objective data.",
+      deviceTagline: "AI Precision Skin Diagnosis Camera",
+      statNum1: "18M", statLabel1: "Megapixels",
+      statNum2: "4", statLabel2: "Light Sources",
+      statLabel3: "AI Analysis",
+      diagName1: "Pigmentation", diagName2: "Pore Condition", diagName3: "Wrinkles &amp; Elasticity", diagName4: "Moisture &amp; Oil",
+      diagSub: "Sample Result",
+      termsEyebrow: "Terms of Use",
+      termsLi1: "This voucher is an exclusive benefit for guests of UH.SUITE SEOUL INSADONG and may not be transferred or sold to others.",
+      termsLi2: "This program operates by reservation only, so please contact the clinic in advance to book before your visit.",
+      termsLi3: "If additional individual medical procedures or prescriptions are recommended after the diagnosis, extra charges may apply.",
+      sec2Eyebrow: "PART 2 · Clinic Treatment Discount",
+      sec2Title: "Exclusive Treatment Benefits for Guests",
+      badgeSoon: "Details to be announced",
+      procName: "Treatment TBA",
+      procSub: "Details will be updated soon",
+      pctLabel: "OFF",
+      infoEyebrow: "Usage Information",
+      infoK1: "Inquiries", infoK2: "Hours", infoK3: "Valid Period",
+      infoV2: "Mon-Fri 10:00 - 21:00<br />Sat-Sun 10:00 - 19:00",
+      infoV3: "Valid only during your hotel stay",
+      footerLine2: "This page was created exclusively to introduce the hotel guest voucher program.",
+      ctaText: "☎ Call to Book"
+    },
+    zh: {
+      collabSub: "专为 UH.SUITE SEOUL INSADONG 住客打造",
+      collabTitle: "欢迎美容礼券",
+      sec1Eyebrow: "PART 1· Mark View 免费体验券",
+      sec1Title: "Mark View 精密皮肤诊断项目",
+      sec1Desc: "1,800万像素、4种光源的AI摄像头可对皮肤表层至深层进行精密拍摄与分析,让您以客观数据确认当前的皮肤状态。",
+      deviceTagline: "AI 精密皮肤诊断摄像头",
+      statNum1: "1,800万", statLabel1: "像素",
+      statNum2: "4种", statLabel2: "光源系统",
+      statLabel3: "精密分析",
+      diagName1: "色素·瑕疵", diagName2: "毛孔状态", diagName3: "皱纹·弹力", diagName4: "水分·油分",
+      diagSub: "诊断示例",
+      termsEyebrow: "使用条款",
+      termsLi1: "本礼券为 UH.SUITE SEOUL INSADONG 住客专享福利,不可转让或转卖给他人。",
+      termsLi2: "本项目采用预约制,请务必在到访前致电院内提前预约。",
+      termsLi3: "诊断后如另行进行个别医疗施术或处方,可能产生额外费用。",
+      sec2Eyebrow: "PART 2· 医院项目折扣券",
+      sec2Title: "住客专享施术优惠",
+      badgeSoon: "详细内容即将公布",
+      procName: "项目名称待定",
+      procSub: "详细内容即将更新",
+      pctLabel: "折扣",
+      infoEyebrow: "使用指南",
+      infoK1: "使用咨询", infoK2: "营业时间", infoK3: "使用期限",
+      infoV2: "周一至周五 10:00 - 21:00<br />周六至周日 10:00 - 19:00",
+      infoV3: "仅限住宿期间使用",
+      footerLine2: "本页面专为住客专享礼券介绍而制作。",
+      ctaText: "☎ 电话预约咨询"
+    },
+    ja: {
+      collabSub: "UH.SUITE SEOUL INSADONG ご宿泊のお客様限定",
+      collabTitle: "ウェルカムビューティーバウチャー",
+      sec1Eyebrow: "PART 1・マークビュー 無料体験券",
+      sec1Title: "マークビュー精密皮膚診断プログラム",
+      sec1Desc: "1,800万画素・4灯光源のAIカメラが肌の表面から内部までを精密に撮影・分析し、現在の肌状態を客観的なデータで確認できるプログラムです。",
+      deviceTagline: "AI精密皮膚診断カメラ",
+      statNum1: "1,800万", statLabel1: "画素",
+      statNum2: "4灯", statLabel2: "光源システム",
+      statLabel3: "精密分析",
+      diagName1: "色素・シミ", diagName2: "毛穴の状態", diagName3: "しわ・弾力", diagName4: "水分・油分",
+      diagSub: "診断例",
+      termsEyebrow: "利用規約",
+      termsLi1: "本バウチャーは UH.SUITE SEOUL INSADONG ご宿泊のお客様限定特典であり、他者への譲渡および販売はできません。",
+      termsLi2: "本プログラムは完全予約制のため、ご来院前に必ずクリニックまでご予約のお問い合わせをお願いいたします。",
+      termsLi3: "診断後、追加で個別の医療施術や処方が行われる場合、別途費用が発生することがございます。",
+      sec2Eyebrow: "PART 2・クリニック施術割引券",
+      sec2Title: "宿泊者限定施術特典",
+      badgeSoon: "詳細は追ってお知らせします",
+      procName: "施術名 未定",
+      procSub: "詳細は追って更新予定",
+      pctLabel: "割引",
+      infoEyebrow: "ご利用案内",
+      infoK1: "お問い合わせ", infoK2: "営業時間", infoK3: "利用期間",
+      infoV2: "月〜金 10:00 - 21:00<br />土・日 10:00 - 19:00",
+      infoV3: "宿泊期間内限定",
+      footerLine2: "本ページは宿泊者限定バウチャーのご案内のために制作されました。",
+      ctaText: "☎ 予約のお問い合わせ"
+    }
+  };
+
+  function setLang(lang) {
+    var dict = translations[lang];
+    if (!dict) return;
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) {
+        el.innerHTML = dict[key];
+      }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    document.documentElement.setAttribute('lang', lang);
+  }
+</script>
+
+</body>
+</html>
