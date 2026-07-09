@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,7 +6,7 @@
 <title>OBLIV × UH.SUITE 투숙객 전용 바우처</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Gowun+Batang:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
 <style>
   :root {
     --black: #0c0c0e;
@@ -35,7 +34,7 @@
     padding-bottom: 84px; /* space for sticky CTA */
   }
 
-  .serif { font-family: 'Noto Serif KR', serif; }
+  .serif { font-family: 'Gowun Batang', 'Noto Serif SC', 'Noto Serif JP', serif; font-weight: 700; }
   .display { font-family: 'Cormorant Garamond', serif; }
 
   .wrap { max-width: 480px; margin: 0 auto; padding: 0 22px; }
@@ -113,9 +112,10 @@
   }
   .collab-sub {
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
   }
   .collab-title {
     margin-top: 14px;
@@ -129,6 +129,33 @@
     background: var(--gold);
     margin: 20px auto;
   }
+
+  /* ===== 초대장풍 바우처 배지 ===== */
+  .voucher-badge {
+    position: relative;
+    margin: 26px auto 0;
+    padding: 26px 18px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--gold);
+    outline: 1px solid rgba(201,167,94,0.55);
+    outline-offset: 6px;
+    border-radius: 3px;
+    background:
+      repeating-linear-gradient(135deg, rgba(201,167,94,0.07) 0px, rgba(201,167,94,0.07) 1px, transparent 1px, transparent 9px),
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.12), transparent 65%),
+      var(--charcoal-2);
+  }
+  .voucher-badge .corner {
+    position: absolute;
+    color: var(--gold);
+    font-size: 12px;
+    line-height: 1;
+  }
+  .voucher-badge .corner.tl { top: -11px; left: -11px; }
+  .voucher-badge .corner.tr { top: -11px; right: -11px; }
+  .voucher-badge .corner.bl { bottom: -11px; left: -11px; }
+  .voucher-badge .corner.br { bottom: -11px; right: -11px; }
 
   /* ===== 섹션 공통 ===== */
   .section { padding: 46px 0; }
@@ -246,6 +273,44 @@
     font-size: 11px;
     color: var(--muted);
     margin-top: 3px;
+  }
+
+  /* ===== 진단 리포트 예시 (이미지) ===== */
+  .report-card {
+    margin-top: 22px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px 22px 22px;
+    background: var(--charcoal-2);
+  }
+  .report-eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .report-title {
+    font-size: 15.5px;
+    font-weight: 500;
+    color: var(--ivory);
+    margin-bottom: 18px;
+  }
+  .report-photo-frame {
+    background: linear-gradient(155deg, #f6f2ea, #e9e2d3);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .report-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+  .report-note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: #7c766c;
+    line-height: 1.6;
   }
 
   /* ===== 이용약관 ===== */
@@ -393,8 +458,14 @@
       <span class="brand">UH.SUITE<br />SEOUL INSADONG</span>
     </div>
     <div class="gold-rule"></div>
-    <div class="collab-sub" data-i18n="collabSub">UH.SUITE SEOUL INSADONG 투숙객만을 위한</div>
-    <div class="collab-title serif" data-i18n="collabTitle">프리미엄 뷰티 바우처</div>
+    <div class="voucher-badge">
+      <span class="corner tl">✦</span>
+      <span class="corner tr">✦</span>
+      <span class="corner bl">✦</span>
+      <span class="corner br">✦</span>
+      <div class="collab-sub" data-i18n="collabSub">UH.SUITE SEOUL INSADONG 투숙객만을 위한</div>
+      <div class="collab-title serif" data-i18n="collabTitle">프리미엄 뷰티 바우처</div>
+    </div>
   </div>
 
   <div class="wrap">
@@ -449,6 +520,17 @@
           <div class="diag-name" data-i18n="diagName4">수분 · 유분</div>
           <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
         </div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-eyebrow">SAMPLE REPORT</div>
+        <div class="report-title" data-i18n="reportTitle">진단 리포트 예시</div>
+
+        <div class="report-photo-frame">
+          <img class="report-photo" src="diagnosis-report.png" alt="진단 리포트 예시" />
+        </div>
+
+        <div class="report-note" data-i18n="reportNote">* 예시 데이터이며, 실제 결과는 촬영 후 제공됩니다.</div>
       </div>
     </div>
 
@@ -531,6 +613,8 @@
       statLabel3: "정밀 분석",
       diagName1: "색소 · 잡티", diagName2: "모공 상태", diagName3: "주름 · 탄력", diagName4: "수분 · 유분",
       diagSub: "진단 예시",
+      reportTitle: "진단 리포트 예시",
+      reportNote: "* 예시 데이터이며, 실제 결과는 촬영 후 제공됩니다.",
       termsEyebrow: "이용 약관",
       termsLi1: "본 바우처는 UH.SUITE SEOUL INSADONG 투숙객 전용 혜택으로, 타인에게 양도 및 판매가 불가능합니다.",
       termsLi2: "사전 예약제로 운영되오니 방문 전 반드시 원내로 예약 문의 부탁드립니다.",
@@ -550,7 +634,7 @@
     },
     en: {
       collabSub: "Exclusively for guests of UH.SUITE SEOUL INSADONG",
-      collabTitle: "PREMIUM Beauty Voucher",
+      collabTitle: "Premium Beauty Voucher",
       sec1Eyebrow: "PART 1 · Mark View Free Trial",
       sec1Title: "Mark View Precision Skin Diagnosis Program",
       sec1Desc: "An 18-megapixel AI camera with 4 light sources precisely captures and analyzes your skin from surface to depth, letting you check your current skin condition with objective data.",
@@ -560,6 +644,8 @@
       statLabel3: "AI Analysis",
       diagName1: "Pigmentation", diagName2: "Pore Condition", diagName3: "Wrinkles &amp; Elasticity", diagName4: "Moisture &amp; Oil",
       diagSub: "Sample Result",
+      reportTitle: "Sample Diagnosis Report",
+      reportNote: "* Sample data for illustration only — actual results are provided after your scan.",
       termsEyebrow: "Terms of Use",
       termsLi1: "This voucher is an exclusive benefit for guests of UH.SUITE SEOUL INSADONG and may not be transferred or sold to others.",
       termsLi2: "This program operates by reservation only, so please contact the clinic in advance to book before your visit.",
@@ -579,7 +665,7 @@
     },
     zh: {
       collabSub: "专为 UH.SUITE SEOUL INSADONG 住客打造",
-      collabTitle: "欢迎美容礼券",
+      collabTitle: "尊享美容礼券",
       sec1Eyebrow: "PART 1· Mark View 免费体验券",
       sec1Title: "Mark View 精密皮肤诊断项目",
       sec1Desc: "1,800万像素、4种光源的AI摄像头可对皮肤表层至深层进行精密拍摄与分析,让您以客观数据确认当前的皮肤状态。",
@@ -589,6 +675,8 @@
       statLabel3: "精密分析",
       diagName1: "色素·瑕疵", diagName2: "毛孔状态", diagName3: "皱纹·弹力", diagName4: "水分·油分",
       diagSub: "诊断示例",
+      reportTitle: "诊断报告示例",
+      reportNote: "* 以下为示例数据,实际结果将在拍摄后提供。",
       termsEyebrow: "使用条款",
       termsLi1: "本礼券为 UH.SUITE SEOUL INSADONG 住客专享福利,不可转让或转卖给他人。",
       termsLi2: "本项目采用预约制,请务必在到访前致电院内提前预约。",
@@ -608,7 +696,7 @@
     },
     ja: {
       collabSub: "UH.SUITE SEOUL INSADONG ご宿泊のお客様限定",
-      collabTitle: "ウェルカムビューティーバウチャー",
+      collabTitle: "プレミアムビューティーバウチャー",
       sec1Eyebrow: "PART 1・マークビュー 無料体験券",
       sec1Title: "マークビュー精密皮膚診断プログラム",
       sec1Desc: "1,800万画素・4灯光源のAIカメラが肌の表面から内部までを精密に撮影・分析し、現在の肌状態を客観的なデータで確認できるプログラムです。",
@@ -618,6 +706,8 @@
       statLabel3: "精密分析",
       diagName1: "色素・シミ", diagName2: "毛穴の状態", diagName3: "しわ・弾力", diagName4: "水分・油分",
       diagSub: "診断例",
+      reportTitle: "診断レポート例",
+      reportNote: "※ サンプルデータです。実際の結果は撮影後にご提供いたします。",
       termsEyebrow: "利用規約",
       termsLi1: "本バウチャーは UH.SUITE SEOUL INSADONG ご宿泊のお客様限定特典であり、他者への譲渡および販売はできません。",
       termsLi2: "本プログラムは完全予約制のため、ご来院前に必ずクリニックまでご予約のお問い合わせをお願いいたします。",
