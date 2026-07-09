@@ -161,27 +161,19 @@
     margin-bottom: 22px;
     overflow: hidden;
   }
-  .device-rings {
-    width: 118px;
-    height: 118px;
-    margin: 0 auto 18px;
-    position: relative;
+  .device-photo-frame {
+    background: linear-gradient(155deg, #f6f2ea, #e9e2d3);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
   }
-  .device-rings .ring {
-    position: absolute;
-    inset: 0;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    opacity: 0.35;
-  }
-  .device-rings .ring:nth-child(2) { inset: 16px; opacity: 0.55; }
-  .device-rings .ring:nth-child(3) { inset: 32px; opacity: 0.8; }
-  .device-rings .lens {
-    position: absolute;
-    inset: 42px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #3a3a3f, #0c0c0e 70%);
-    border: 1px solid var(--gold-light);
+  .device-photo {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
   }
   .device-name {
     font-family: 'Cormorant Garamond', serif;
@@ -230,20 +222,19 @@
   .diag-card {
     border: 1px solid var(--line);
     border-radius: 16px;
-    padding: 20px 14px;
+    padding: 12px 12px 18px;
     text-align: center;
     background: var(--charcoal-2);
   }
-  .diag-icon {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto 10px;
-    border-radius: 50%;
-    border: 1px solid var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+  .diag-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+    background: #000;
   }
   .diag-name {
     font-size: 13.5px;
@@ -414,11 +405,8 @@
       <p class="section-desc" data-i18n="sec1Desc">1,800만 화소 4대 광원 AI 카메라가 피부 표면부터 속까지 정밀하게 촬영·분석해, 지금 내 피부 상태를 객관적인 데이터로 확인할 수 있는 프로그램입니다.</p>
 
       <div class="device-card">
-        <div class="device-rings">
-          <div class="ring"></div>
-          <div class="ring"></div>
-          <div class="ring"></div>
-          <div class="lens"></div>
+        <div class="device-photo-frame">
+          <img class="device-photo" src="mark-vu-device.jpg" alt="마크뷰 AI 피부 진단 기기" />
         </div>
         <div class="device-name display">MARK VIEW</div>
         <div class="device-tagline" data-i18n="deviceTagline">AI 정밀 피부 진단 카메라</div>
@@ -441,22 +429,22 @@
 
       <div class="diag-grid">
         <div class="diag-card">
-          <div class="diag-icon">◐</div>
+          <img class="diag-photo" src="diagnosis-1.jpg" alt="색소 · 잡티 진단 예시" />
           <div class="diag-name" data-i18n="diagName1">색소 · 잡티</div>
           <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
         </div>
         <div class="diag-card">
-          <div class="diag-icon">◈</div>
+          <img class="diag-photo" src="diagnosis-2.jpg" alt="모공 상태 진단 예시" />
           <div class="diag-name" data-i18n="diagName2">모공 상태</div>
           <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
         </div>
         <div class="diag-card">
-          <div class="diag-icon">≋</div>
+          <img class="diag-photo" src="diagnosis-3.jpg" alt="주름 · 탄력 진단 예시" />
           <div class="diag-name" data-i18n="diagName3">주름 · 탄력</div>
           <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
         </div>
         <div class="diag-card">
-          <div class="diag-icon">◎</div>
+          <img class="diag-photo" src="diagnosis-4.jpg" alt="수분 · 유분 진단 예시" />
           <div class="diag-name" data-i18n="diagName4">수분 · 유분</div>
           <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
         </div>
