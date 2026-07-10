@@ -134,28 +134,71 @@
   .voucher-badge {
     position: relative;
     margin: 26px auto 0;
-    padding: 26px 18px;
+    padding: 30px 22px;
     width: 100%;
     max-width: 400px;
     border: 1px solid var(--gold);
-    outline: 1px solid rgba(201,167,94,0.55);
-    outline-offset: 6px;
-    border-radius: 3px;
+    outline: 1px solid rgba(201,167,94,0.5);
+    outline-offset: 7px;
+    border-radius: 2px;
     background:
       repeating-linear-gradient(135deg, rgba(201,167,94,0.07) 0px, rgba(201,167,94,0.07) 1px, transparent 1px, transparent 9px),
-      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.12), transparent 65%),
-      var(--charcoal-2);
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.14), transparent 65%),
+      linear-gradient(160deg, #16151c, #0e0d12 60%);
   }
+
+  /* 네 모서리 장식 (액자풍 코너 브래킷 + 포인트) */
   .voucher-badge .corner {
     position: absolute;
-    color: var(--gold);
-    font-size: 12px;
-    line-height: 1;
+    width: 22px;
+    height: 22px;
   }
-  .voucher-badge .corner.tl { top: -11px; left: -11px; }
-  .voucher-badge .corner.tr { top: -11px; right: -11px; }
-  .voucher-badge .corner.bl { bottom: -11px; left: -11px; }
-  .voucher-badge .corner.br { bottom: -11px; right: -11px; }
+  .voucher-badge .corner.tl { top: -8px; left: -8px; }
+  .voucher-badge .corner.tr { top: -8px; right: -8px; }
+  .voucher-badge .corner.bl { bottom: -8px; left: -8px; }
+  .voucher-badge .corner.br { bottom: -8px; right: -8px; }
+  .voucher-badge .corner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1.6px solid var(--gold);
+  }
+  .voucher-badge .corner.tl::before { border-width: 1.6px 0 0 1.6px; }
+  .voucher-badge .corner.tr::before { border-width: 1.6px 1.6px 0 0; }
+  .voucher-badge .corner.bl::before { border-width: 0 0 1.6px 1.6px; }
+  .voucher-badge .corner.br::before { border-width: 0 1.6px 1.6px 0; }
+  .voucher-badge .corner::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    box-shadow: 0 0 5px rgba(232,217,176,0.7);
+  }
+  .voucher-badge .corner.tl::after { top: -2.5px; left: -2.5px; }
+  .voucher-badge .corner.tr::after { top: -2.5px; right: -2.5px; }
+  .voucher-badge .corner.bl::after { bottom: -2.5px; left: -2.5px; }
+  .voucher-badge .corner.br::after { bottom: -2.5px; right: -2.5px; }
+
+  /* 서브텍스트 · 타이틀 사이 장식 구분선 */
+  .badge-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px auto;
+    max-width: 220px;
+  }
+  .badge-divider span.line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .badge-divider span.diamond {
+    color: var(--gold);
+    font-size: 10px;
+    transform: rotate(0deg);
+  }
 
   /* ===== 섹션 공통 ===== */
   .section { padding: 46px 0; }
@@ -500,11 +543,12 @@
     </div>
     <div class="gold-rule"></div>
     <div class="voucher-badge">
-      <span class="corner tl">✦</span>
-      <span class="corner tr">✦</span>
-      <span class="corner bl">✦</span>
-      <span class="corner br">✦</span>
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
       <div class="collab-sub" data-i18n="collabSub">UH.SUITE SEOUL INSADONG 투숙객만을 위한</div>
+      <div class="badge-divider"><span class="line"></span><span class="diamond">◆</span><span class="line"></span></div>
       <div class="collab-title serif" data-i18n="collabTitle">프리미엄 뷰티 바우처</div>
     </div>
   </div>
@@ -535,7 +579,7 @@
 
       <div class="device-card">
         <div class="device-photo-frame">
-          <img class="device-photo" src="mark-vu-device.png" alt="마크뷰 AI 피부 진단 기기" />
+          <img class="device-photo" src="mark-vu-device.gif" alt="마크뷰 AI 피부 진단 기기" />
         </div>
         <div class="device-name display">MARK VIEW</div>
         <div class="device-tagline" data-i18n="deviceTagline">AI 정밀 피부 진단 카메라</div>
@@ -692,7 +736,7 @@
       infoEyebrow: "이용 안내",
       infoK1: "사용 문의", infoK2: "운영 시간", infoK3: "이용 기간", infoK4: "병원 위치",
       infoV2: "월-금 10:00 - 21:00<br />토-일 10:00 - 19:00",
-      infoV3: "투숙 기간 내 한정",
+      infoV3: "체크인일로부터 7일간",
       infoV4: "서울특별시 종로구 청계천로 93 파고다타워 1F",
       footerLine2: "본 페이지는 투숙객 전용 바우처 안내를 위해 제작되었습니다.",
       ctaText: "☎ 예약 문의하기"
@@ -726,7 +770,7 @@
       infoEyebrow: "Usage Information",
       infoK1: "Inquiries", infoK2: "Hours", infoK3: "Valid Period", infoK4: "Location",
       infoV2: "Mon-Fri 10:00 - 21:00<br />Sat-Sun 10:00 - 19:00",
-      infoV3: "Valid only during your hotel stay",
+      infoV3: "7 days from check-in",
       infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
       footerLine2: "This page was created exclusively to introduce the hotel guest voucher program.",
       ctaText: "☎ Call to Book"
@@ -760,7 +804,7 @@
       infoEyebrow: "使用指南",
       infoK1: "使用咨询", infoK2: "营业时间", infoK3: "使用期限", infoK4: "医院位置",
       infoV2: "周一至周五 10:00 - 21:00<br />周六至周日 10:00 - 19:00",
-      infoV3: "仅限住宿期间使用",
+      infoV3: "入住当天起7天内",
       infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
       footerLine2: "本页面专为住客专享礼券介绍而制作。",
       ctaText: "☎ 电话预约咨询"
@@ -794,7 +838,7 @@
       infoEyebrow: "ご利用案内",
       infoK1: "お問い合わせ", infoK2: "営業時間", infoK3: "利用期間", infoK4: "クリニックの場所",
       infoV2: "月〜金 10:00 - 21:00<br />土・日 10:00 - 19:00",
-      infoV3: "宿泊期間内限定",
+      infoV3: "チェックイン日から7日間",
       infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
       footerLine2: "本ページは宿泊者限定バウチャーのご案内のために制作されました。",
       ctaText: "☎ 予約のお問い合わせ"
