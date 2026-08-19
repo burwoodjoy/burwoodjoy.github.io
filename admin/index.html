@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>OBLIV LEADS — 리드 관리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  /* voucher.html 과 동일한 디자인 토큰 (docs/lead-app/PLAN.md §7.1) */
+  :root {
+    --black: #0c0c0e;
+    --charcoal: #17161a;
+    --charcoal-2: #1f1e22;
+    --gold: #c9a75e;
+    --gold-light: #e8d9b0;
+    --gold-deep: #a4813f;
+    --ivory: #f6f2ea;
+    --muted: #a9a39a;
+    --line: rgba(201, 167, 94, 0.28);
+    --danger: #e08a7a;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
+
+  body {
+    margin: 0;
+    background: var(--black);
+    color: var(--ivory);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .display { font-family: 'Cormorant Garamond', serif; }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 18px 60px; }
+
+  button, select, input, textarea { font-family: inherit; }
+
+  /* ===== 공통 입력/버튼 (voucher.html .text-input / .submit-btn 문법) ===== */
+  .text-input, .select-input, .memo-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 15px;
+    min-height: 44px;
+    color: var(--ivory);
+    font-size: 15px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .text-input::placeholder, .memo-input::placeholder { color: #6f6a62; }
+  .text-input:focus, .select-input:focus, .memo-input:focus {
+    border-color: var(--gold);
+    background: rgba(201,167,94,0.06);
+  }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    pointer-events: none;
+    font-size: 12px;
+  }
+  .select-input {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .select-input option { color: var(--ivory); background: var(--charcoal-2); }
+
+  .btn-primary {
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 22px;
+    min-height: 44px;
+    border-radius: 999px;
+    transition: transform 0.12s ease, opacity 0.15s ease;
+  }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.6; cursor: default; }
+
+  .btn-ghost {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    padding: 10px 16px;
+    min-height: 44px;
+    border-radius: 999px;
+    transition: all 0.15s ease;
+  }
+  .btn-ghost:active { transform: scale(0.98); }
+  .btn-ghost:disabled { opacity: 0.5; cursor: default; }
+
+  /* ===== 로그인 화면 ===== */
+  .login-screen {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 18px;
+  }
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 38px 26px 32px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.14), transparent 65%),
+      var(--charcoal-2);
+  }
+  .brand-title {
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 4px;
+    color: var(--gold-light);
+    line-height: 1.3;
+  }
+  .brand-sub {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin: 6px 0 0;
+  }
+  .gold-rule { width: 46px; height: 1px; background: var(--gold); margin: 20px auto 26px; }
+  .login-field { margin-bottom: 14px; }
+  .login-field label {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .login-error {
+    font-size: 12.5px;
+    color: var(--danger);
+    margin: 2px 0 12px;
+  }
+  #loginBtn { width: 100%; margin-top: 6px; }
+  .login-note {
+    margin: 16px 0 0;
+    font-size: 11px;
+    color: #6f6a62;
+    text-align: center;
+  }
+
+  /* ===== 앱 헤더 ===== */
+  .app-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 0 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .app-head .t { font-size: 21px; letter-spacing: 3px; color: var(--gold-light); line-height: 1.2; }
+  .app-head .who { font-size: 11.5px; color: var(--muted); margin-top: 2px; word-break: break-all; }
+
+  /* ===== 요약 칩 ===== */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 0 4px; }
+  .chip {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 12.5px;
+    letter-spacing: 0.4px;
+    padding: 9px 14px;
+    min-height: 40px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .chip .n { color: var(--gold); font-weight: 500; margin-left: 4px; }
+  .chip.active {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    border-color: transparent;
+    font-weight: 700;
+  }
+  .chip.active .n { color: #201705; }
+
+  /* ===== 필터 바 (모바일 상단 고정) ===== */
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12,12,14,0.94);
+    backdrop-filter: blur(10px);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .filter-row { display: flex; gap: 8px; }
+  .filter-row + .filter-row { margin-top: 8px; }
+  .filter-row .grow { flex: 1; min-width: 0; }
+  .filter-selects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .filter-bar .select-input, .filter-bar .text-input { font-size: 13px; padding-top: 10px; padding-bottom: 10px; }
+
+  /* ===== 툴바 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 16px 0 12px;
+  }
+  .toolbar .count { font-size: 12.5px; color: var(--muted); }
+  .toolbar .count b { color: var(--gold); font-weight: 500; }
+  .toolbar .btns { display: flex; gap: 8px; }
+
+  /* ===== 리드 카드 ===== */
+  .lead-item {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--charcoal-2);
+    padding: 18px 16px 16px;
+    margin-bottom: 14px;
+  }
+  .li-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .li-id { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+  .li-name { font-size: 16.5px; font-weight: 500; color: var(--ivory); flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .badge {
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+  .badge.st-new { background: linear-gradient(135deg, var(--gold-light), var(--gold-deep)); color: #201705; font-weight: 700; }
+  .badge.st-contacted { border-color: var(--gold); color: var(--gold); }
+  .badge.st-done { border-color: rgba(169,163,154,0.5); color: var(--muted); }
+
+  .li-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-top: 12px;
+    font-size: 13.5px;
+  }
+  .li-meta .mi { display: inline-flex; align-items: center; gap: 6px; color: var(--ivory); }
+  .li-meta .mi svg { width: 18px; height: 18px; display: block; }
+  .li-meta .nat, .li-meta .lang-chip { color: var(--muted); font-size: 12.5px; letter-spacing: 0.5px; }
+  .contact-copy {
+    background: rgba(255,255,255,0.05);
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    padding: 8px 12px;
+    min-height: 40px;
+    color: var(--ivory);
+    font-size: 13.5px;
+    cursor: pointer;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+  .contact-copy .cp { color: var(--gold); margin-left: 6px; font-size: 12px; }
+  .wa-link {
+    font-size: 12.5px;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding: 6px 0;
+  }
+
+  .li-time { margin-top: 8px; font-size: 12px; color: var(--muted); letter-spacing: 0.3px; }
+
+  .li-actions { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .li-actions .lab { font-size: 12.5px; color: var(--gold); letter-spacing: 1px; flex: 0 0 auto; }
+  .li-actions .select-wrap { flex: 1; max-width: 220px; }
+  .status-sel { font-size: 13.5px; padding-top: 10px; padding-bottom: 10px; }
+
+  .li-memo { margin-top: 12px; }
+  .memo-input { min-height: 60px; resize: vertical; font-size: 13.5px; line-height: 1.6; display: block; }
+  .memo-foot { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .memo-state { font-size: 12px; color: var(--gold); }
+
+  /* ===== 상태 화면 / 토스트 ===== */
+  .state-box { text-align: center; padding: 54px 0; color: var(--muted); font-size: 14px; }
+  .state-box .btn-ghost { margin-top: 16px; }
+
+  #toast {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%) translateY(8px);
+    z-index: 500;
+    background: #26241f;
+    border: 1px solid var(--line);
+    color: var(--ivory);
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    max-width: calc(100vw - 40px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+  <!-- ===== A. 로그인 화면 ===== -->
+  <div class="login-screen" id="viewLogin" hidden>
+    <div class="login-card">
+      <div class="brand-title display">OBLIV LEADS</div>
+      <p class="brand-sub">OBLIV CLINIC × UH.SUITE — 예약 문의 관리</p>
+      <div class="gold-rule"></div>
+      <form id="loginForm" novalidate>
+        <div class="login-field">
+          <label for="loginEmail">이메일</label>
+          <input class="text-input" type="email" id="loginEmail" autocomplete="username" placeholder="admin@example.com" />
+        </div>
+        <div class="login-field">
+          <label for="loginPw">비밀번호</label>
+          <input class="text-input" type="password" id="loginPw" autocomplete="current-password" placeholder="비밀번호" />
+        </div>
+        <div class="login-error" id="loginError" hidden></div>
+        <button type="submit" class="btn-primary" id="loginBtn">로그인</button>
+      </form>
+      <p class="login-note">관리자 전용 페이지입니다. 계정 문의는 운영 담당자에게 연락해주세요.</p>
+    </div>
+  </div>
+
+  <!-- ===== B. 리드 목록 화면 ===== -->
+  <div id="viewApp" hidden>
+    <div class="wrap">
+
+      <header class="app-head">
+        <div>
+          <div class="t display">OBLIV LEADS</div>
+          <div class="who" id="whoEmail"></div>
+        </div>
+        <button class="btn-ghost" id="logoutBtn">로그아웃</button>
+      </header>
+
+      <div class="chips" id="chips">
+        <button class="chip active" data-status="">전체<span class="n">0</span></button>
+        <button class="chip" data-status="new">new<span class="n">0</span></button>
+        <button class="chip" data-status="contacted">contacted<span class="n">0</span></button>
+        <button class="chip" data-status="done">done<span class="n">0</span></button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-row">
+          <input class="text-input grow" type="search" id="fSearch" placeholder="이름 · 연락처 검색" />
+          <button class="btn-ghost" id="fReset">초기화</button>
+        </div>
+        <div class="filter-row filter-selects">
+          <div class="select-wrap"><select class="select-input" id="fMessenger" aria-label="메신저 필터">
+            <option value="">메신저 전체</option>
+            <option value="whatsapp">왓츠앱</option>
+            <option value="line">라인</option>
+            <option value="wechat">위챗</option>
+            <option value="kakaotalk">카카오톡</option>
+          </select></div>
+          <div class="select-wrap"><select class="select-input" id="fNationality" aria-label="국적 필터">
+            <option value="">국적 전체</option>
+            <option value="KR">🇰🇷 KR</option>
+            <option value="US">🇺🇸 US</option>
+            <option value="CN">🇨🇳 CN</option>
+            <option value="JP">🇯🇵 JP</option>
+            <option value="TW">🇹🇼 TW</option>
+            <option value="HK">🇭🇰 HK</option>
+            <option value="SG">🇸🇬 SG</option>
+            <option value="TH">🇹🇭 TH</option>
+            <option value="VN">🇻🇳 VN</option>
+            <option value="RU">🇷🇺 RU</option>
+            <option value="OTHER">🌏 OTHER</option>
+          </select></div>
+          <div class="select-wrap"><select class="select-input" id="fStatus" aria-label="상태 필터">
+            <option value="">상태 전체</option>
+            <option value="new">new</option>
+            <option value="contacted">contacted</option>
+            <option value="done">done</option>
+          </select></div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="count" id="countLabel"></div>
+        <div class="btns">
+          <button class="btn-ghost" id="refreshBtn">새로고침</button>
+          <button class="btn-ghost" id="csvBtn">CSV 내보내기</button>
+        </div>
+      </div>
+
+      <div class="state-box" id="stateLoading" hidden>불러오는 중…</div>
+      <div class="state-box" id="stateEmpty" hidden>아직 접수된 문의가 없습니다</div>
+      <div class="state-box" id="stateNoMatch" hidden>조건에 맞는 리드가 없습니다<br /><button class="btn-ghost" id="noMatchReset">필터 초기화</button></div>
+      <div class="state-box" id="stateError" hidden>
+        <span id="stateErrorMsg">목록을 불러오지 못했습니다.</span><br />
+        <button class="btn-ghost" id="retryBtn">다시 시도</button>
+      </div>
+
+      <div id="leadList"></div>
+
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  /* ===================================================================
+     Supabase 연결 상수 — docs/lead-app/BRIEF.md CONFIG 값
+     publishable 키(공개용)를 우선 사용한다. 만약 게이트웨이/라이브러리가
+     401로 거부하면 아래 legacy anon(JWT) 키로 교체할 것 (DEV-NOTES 참고).
+     =================================================================== */
+  var SUPABASE_URL = 'https://dqnjbheejjtoitrbzxmp.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_4z1mUiKCaP67VRYyjoGGig_9JukGA_1';
+  // legacy anon (JWT) 대체 키:
+  // var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxbmpiaGVlamp0b2l0cmJ6eG1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2MDYyNDUsImV4cCI6MjA5NjE4MjI0NX0.F-WqEyYH_pQ6cVs-9lD8nOjYtqlIfvdFknFBRE5FlQg';
+
+  var sb = null;
+  try {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch (e) {
+    /* CDN 로드 실패 등 — init()에서 안내 */
+  }
+
+  /* ===== 상수/헬퍼 ===== */
+  var MSGR = {
+    whatsapp: { label: '왓츠앱', svg: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>' },
+    line: { label: '라인', svg: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#06C755" d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>' },
+    wechat: { label: '위챗', svg: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#07C160" d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>' },
+    kakaotalk: { label: '카카오톡', svg: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FEE500" d="M22.125 0H1.875C.8394 0 0 .8394 0 1.875v20.25C0 23.1606.8394 24 1.875 24h20.25C23.1606 24 24 23.1606 24 22.125V1.875C24 .8394 23.1606 0 22.125 0zM12 18.75c-.591 0-1.1697-.0413-1.7317-.1209-.5626.3965-3.813 2.6797-4.1198 2.7225 0 0-.1258.0489-.2328-.0141s-.0876-.2282-.0876-.2282c.0322-.2198.8426-3.0183.992-3.5333-2.7452-1.36-4.5701-3.7686-4.5701-6.5135C2.25 6.8168 6.6152 3.375 12 3.375s9.75 3.4418 9.75 7.6875c0 4.2457-4.3652 7.6875-9.75 7.6875zM8.0496 9.8672h-.8777v3.3417c0 .2963-.2523.5372-.5625.5372s-.5625-.2409-.5625-.5372V9.8672h-.8777c-.3044 0-.552-.2471-.552-.5508s.2477-.5508.552-.5508h2.8804c.3044 0 .552.2471.552.5508s-.2477.5508-.552.5508zm10.9879 2.9566a.558.558 0 0 1 .108.4167.5588.5588 0 0 1-.2183.371.5572.5572 0 0 1-.3383.1135.558.558 0 0 1-.4493-.2236l-1.3192-1.7479-.1952.1952v1.2273a.5635.5635 0 0 1-.5627.5628.563.563 0 0 1-.5625-.5625V9.3281c0-.3102.2523-.5625.5625-.5625s.5625.2523.5625.5625v1.209l1.5694-1.5694c.0807-.0807.1916-.1252.312-.1252.1404 0 .2814.0606.3871.1661.0985.0984.1573.2251.1654.3566.0082.1327-.036.2542-.1241.3425l-1.2818 1.2817 1.3845 1.8344zm-8.3502-3.5023c-.095-.2699-.3829-.5475-.7503-.5557-.3663.0083-.6542.2858-.749.5551l-1.3455 3.5415c-.1708.5305-.0217.7272.1333.7988a.8568.8568 0 0 0 .3576.0776c.2346 0 .4139-.0952.4678-.2481l.2787-.7297 1.7152.0001.2785.7292c.0541.1532.2335.2484.4681.2484a.8601.8601 0 0 0 .3576-.0775c.1551-.0713.3041-.2681.1329-.7999l-1.3449-3.5398zm-1.3116 2.4433l.5618-1.5961.5618 1.5961H9.3757zm5.9056 1.3836c0 .2843-.2418.5156-.5391.5156h-1.8047c-.2973 0-.5391-.2314-.5391-.5156V9.3281c0-.3102.2576-.5625.5742-.5625s.5742.2523.5742.5625v3.3047h1.1953c.2974 0 .5392.2314.5392.5156z"/></svg>' }
+  };
+  var FLAGS = { KR:'🇰🇷', US:'🇺🇸', CN:'🇨🇳', JP:'🇯🇵', TW:'🇹🇼', HK:'🇭🇰', SG:'🇸🇬', TH:'🇹🇭', VN:'🇻🇳', RU:'🇷🇺', OTHER:'🌏' };
+  var STATUSES = ['new', 'contacted', 'done'];
+
+  function $(id) { return document.getElementById(id); }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+
+  /* timestamptz(ISO) → 'YYYY-MM-DD HH:mm' (Asia/Seoul 고정 표기) */
+  function kst(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleString('sv-SE', {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+    }).replace(',', '');
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+
+  /* ===== 상태 ===== */
+  var allLeads = [];
+  var F = { messenger: '', nationality: '', status: '', q: '' };
+
+  function filteredLeads() {
+    var q = F.q.trim().toLowerCase();
+    return allLeads.filter(function (l) {
+      if (F.messenger && l.messenger !== F.messenger) return false;
+      if (F.nationality && l.nationality !== F.nationality) return false;
+      if (F.status && l.status !== F.status) return false;
+      if (q) {
+        var hay = ((l.name || '') + ' ' + (l.contact || '')).toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+  }
+
+  /* ===== 화면 전환 ===== */
+  function showLogin() {
+    $('viewApp').hidden = true;
+    $('viewLogin').hidden = false;
+    allLeads = [];
+    $('leadList').innerHTML = '';
+  }
+
+  function enterApp(session) {
+    $('whoEmail').textContent = (session && session.user && session.user.email) || '';
+    $('viewLogin').hidden = true;
+    $('viewApp').hidden = false;
+    loadLeads();
+  }
+
+  /* ===== 데이터 로드 ===== */
+  function setListState(state) { /* 'loading' | 'empty' | 'nomatch' | 'error' | 'list' */
+    $('stateLoading').hidden = state !== 'loading';
+    $('stateEmpty').hidden = state !== 'empty';
+    $('stateNoMatch').hidden = state !== 'nomatch';
+    $('stateError').hidden = state !== 'error';
+    $('leadList').hidden = state !== 'list';
+  }
+
+  async function loadLeads() {
+    setListState('loading');
+    var res = await sb.from('leads')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1000);
+    if (res.error) {
+      $('stateErrorMsg').textContent = '목록을 불러오지 못했습니다. (' + esc(res.error.message || 'network error') + ')';
+      setListState('error');
+      $('countLabel').textContent = '';
+      return;
+    }
+    allLeads = res.data || [];
+    renderChips();
+    renderList();
+  }
+
+  /* ===== 렌더링 ===== */
+  function renderChips() {
+    var counts = { '': allLeads.length, 'new': 0, 'contacted': 0, 'done': 0 };
+    allLeads.forEach(function (l) { if (counts[l.status] !== undefined) counts[l.status]++; });
+    document.querySelectorAll('#chips .chip').forEach(function (chip) {
+      var st = chip.getAttribute('data-status');
+      chip.querySelector('.n').textContent = counts[st] !== undefined ? counts[st] : 0;
+      chip.classList.toggle('active', F.status === st);
+    });
+  }
+
+  function waLink(lead) {
+    if (lead.messenger !== 'whatsapp') return '';
+    var c = String(lead.contact || '').trim();
+    if (!/^(\+|00)/.test(c)) return '';        /* 국가번호가 명시된 번호만 링크화 */
+    var digits = c.replace(/[^0-9]/g, '').replace(/^0+/, '');
+    if (digits.length < 8) return '';
+    return '<a class="wa-link" href="https://wa.me/' + esc(digits) + '" target="_blank" rel="noopener">WhatsApp 열기 ↗</a>';
+  }
+
+  function cardHtml(lead) {
+    var m = MSGR[lead.messenger] || { label: esc(lead.messenger), svg: '' };
+    var flag = FLAGS[lead.nationality] || '🌏';
+    var statusOpts = STATUSES.map(function (s) {
+      return '<option value="' + s + '"' + (lead.status === s ? ' selected' : '') + '>' + s + '</option>';
+    }).join('');
+    return '' +
+      '<article class="lead-item" data-id="' + lead.id + '">' +
+        '<div class="li-top">' +
+          '<span class="li-id">#' + lead.id + '</span>' +
+          '<span class="li-name">' + esc(lead.name) + '</span>' +
+          '<span class="badge st-' + esc(lead.status) + '">' + esc(lead.status) + '</span>' +
+        '</div>' +
+        '<div class="li-meta">' +
+          '<span class="mi">' + m.svg + esc(m.label) + '</span>' +
+          '<button type="button" class="contact-copy" data-contact="' + esc(lead.contact) + '" title="탭하면 복사됩니다">' +
+            esc(lead.contact) + '<span class="cp">⧉ 복사</span>' +
+          '</button>' +
+          waLink(lead) +
+          '<span class="nat">' + flag + ' ' + esc(lead.nationality) + '</span>' +
+          '<span class="lang-chip">' + esc(String(lead.lang || '').toUpperCase()) + '</span>' +
+        '</div>' +
+        '<div class="li-time">접수 ' + esc(kst(lead.created_at)) + ' KST</div>' +
+        '<div class="li-actions">' +
+          '<span class="lab">상태</span>' +
+          '<div class="select-wrap"><select class="select-input status-sel" aria-label="상태 변경">' + statusOpts + '</select></div>' +
+        '</div>' +
+        '<div class="li-memo">' +
+          '<textarea class="memo-input" maxlength="2000" placeholder="관리자 메모 (예: 8/21 15시 예약 확정)">' + esc(lead.admin_memo) + '</textarea>' +
+          '<div class="memo-foot">' +
+            '<button type="button" class="btn-ghost memo-save">메모 저장</button>' +
+            '<span class="memo-state"></span>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+  }
+
+  function renderList() {
+    var rows = filteredLeads();
+    $('countLabel').innerHTML = '표시 <b>' + rows.length + '</b> / 전체 ' + allLeads.length + '건';
+    if (allLeads.length === 0) { setListState('empty'); return; }
+    if (rows.length === 0) { setListState('nomatch'); return; }
+    $('leadList').innerHTML = rows.map(cardHtml).join('');
+    setListState('list');
+  }
+
+  function findLead(id) {
+    for (var i = 0; i < allLeads.length; i++) if (allLeads[i].id === id) return allLeads[i];
+    return null;
+  }
+
+  /* ===== 카드 내 액션 (이벤트 위임) ===== */
+  $('leadList').addEventListener('change', function (e) {
+    if (e.target.classList.contains('status-sel')) onStatusChange(e.target);
+  });
+  $('leadList').addEventListener('click', function (e) {
+    var copyBtn = e.target.closest('.contact-copy');
+    if (copyBtn) { copyContact(copyBtn); return; }
+    var saveBtn = e.target.closest('.memo-save');
+    if (saveBtn) { onMemoSave(saveBtn); return; }
+  });
+
+  async function onStatusChange(sel) {
+    var card = sel.closest('.lead-item');
+    var id = Number(card.getAttribute('data-id'));
+    var lead = findLead(id);
+    if (!lead) return;
+    var prev = lead.status;
+    var next = sel.value;
+    if (prev === next) return;
+    sel.disabled = true;
+    var res = await sb.from('leads').update({ status: next }).eq('id', id);
+    sel.disabled = false;
+    if (res.error) {
+      sel.value = prev;
+      toast('상태 변경에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
+    lead.status = next;
+    var badge = card.querySelector('.badge');
+    badge.className = 'badge st-' + next;
+    badge.textContent = next;
+    renderChips();
+  }
+
+  async function onMemoSave(btn) {
+    var card = btn.closest('.lead-item');
+    var id = Number(card.getAttribute('data-id'));
+    var lead = findLead(id);
+    if (!lead) return;
+    var ta = card.querySelector('.memo-input');
+    var stateEl = card.querySelector('.memo-state');
+    var val = ta.value.trim();
+    btn.disabled = true;
+    stateEl.textContent = '저장 중…';
+    var res = await sb.from('leads').update({ admin_memo: val === '' ? null : val }).eq('id', id);
+    btn.disabled = false;
+    if (res.error) {
+      stateEl.textContent = '';
+      toast('메모 저장에 실패했습니다. 입력값은 유지됩니다.');
+      return;
+    }
+    lead.admin_memo = val === '' ? null : val;
+    stateEl.textContent = '저장됨';
+    clearTimeout(stateEl._t);
+    stateEl._t = setTimeout(function () { stateEl.textContent = ''; }, 2500);
+  }
+
+  function copyContact(btn) {
+    var text = btn.getAttribute('data-contact') || '';
+    function ok() { toast('연락처가 복사되었습니다'); }
+    function fail() { toast('복사에 실패했습니다'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, fail);
+    } else {
+      var tmp = document.createElement('textarea');
+      tmp.value = text;
+      tmp.style.position = 'fixed';
+      tmp.style.opacity = '0';
+      document.body.appendChild(tmp);
+      tmp.select();
+      try { document.execCommand('copy') ? ok() : fail(); } catch (e) { fail(); }
+      tmp.remove();
+    }
+  }
+
+  /* ===== 필터 ===== */
+  function syncFilterInputs() {
+    $('fMessenger').value = F.messenger;
+    $('fNationality').value = F.nationality;
+    $('fStatus').value = F.status;
+    $('fSearch').value = F.q;
+  }
+
+  $('fMessenger').addEventListener('change', function () { F.messenger = this.value; renderList(); });
+  $('fNationality').addEventListener('change', function () { F.nationality = this.value; renderList(); });
+  $('fStatus').addEventListener('change', function () { F.status = this.value; renderChips(); renderList(); });
+  $('fSearch').addEventListener('input', function () { F.q = this.value; renderList(); });
+
+  function resetFilters() {
+    F = { messenger: '', nationality: '', status: '', q: '' };
+    syncFilterInputs();
+    renderChips();
+    renderList();
+  }
+  $('fReset').addEventListener('click', resetFilters);
+  $('noMatchReset').addEventListener('click', resetFilters);
+
+  $('chips').addEventListener('click', function (e) {
+    var chip = e.target.closest('.chip');
+    if (!chip) return;
+    F.status = chip.getAttribute('data-status');
+    $('fStatus').value = F.status;
+    renderChips();
+    renderList();
+  });
+
+  /* ===== 툴바 ===== */
+  $('refreshBtn').addEventListener('click', loadLeads);
+  $('retryBtn').addEventListener('click', loadLeads);
+
+  function csvCell(v) {
+    var s = String(v == null ? '' : v);
+    if (/[",\n\r]/.test(s)) s = '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+
+  $('csvBtn').addEventListener('click', function () {
+    var rows = filteredLeads();
+    var header = ['id', 'created_at(KST)', 'name', 'messenger', 'contact', 'nationality', 'lang', 'status', 'admin_memo', 'submitted_at', 'source'];
+    var lines = [header.map(csvCell).join(',')];
+    rows.forEach(function (l) {
+      lines.push([
+        l.id, kst(l.created_at), l.name, l.messenger, l.contact,
+        l.nationality, l.lang, l.status, l.admin_memo || '', l.submitted_at || '', l.source || ''
+      ].map(csvCell).join(','));
+    });
+    /* \uFEFF = UTF-8 BOM — 엑셀 한글 깨짐 방지 (PLAN §7.2) */
+    var blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    var stamp = kst(new Date().toISOString()).slice(0, 10).replace(/-/g, '');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'leads_' + stamp + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    toast('CSV ' + rows.length + '건을 내려받았습니다');
+  });
+
+  /* ===== 인증 ===== */
+  $('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var errEl = $('loginError');
+    var btn = $('loginBtn');
+    var email = $('loginEmail').value.trim();
+    var pw = $('loginPw').value;
+    if (!email || !pw) {
+      errEl.textContent = '이메일과 비밀번호를 입력해주세요.';
+      errEl.hidden = false;
+      return;
+    }
+    errEl.hidden = true;
+    btn.disabled = true;
+    btn.textContent = '로그인 중…';
+    var res = await sb.auth.signInWithPassword({ email: email, password: pw });
+    btn.disabled = false;
+    btn.textContent = '로그인';
+    if (res.error) {
+      errEl.textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
+      errEl.hidden = false;
+      return;
+    }
+    $('loginPw').value = '';
+    enterApp(res.data.session);
+  });
+
+  $('logoutBtn').addEventListener('click', async function () {
+    try { await sb.auth.signOut(); } catch (e) { /* 세션이 이미 만료된 경우 등 — 무시 */ }
+    showLogin();
+  });
+
+  /* ===== 초기화 ===== */
+  (async function init() {
+    if (!sb) {
+      showLogin();
+      var errEl = $('loginError');
+      errEl.textContent = '라이브러리(supabase-js) 로드에 실패했습니다. 네트워크 확인 후 새로고침해주세요.';
+      errEl.hidden = false;
+      $('loginBtn').disabled = true;
+      return;
+    }
+    /* 다른 탭 로그아웃·세션 만료 시 로그인 화면으로 복귀 */
+    sb.auth.onAuthStateChange(function (event) {
+      if (event === 'SIGNED_OUT') showLogin();
+    });
+    var s = await sb.auth.getSession();
+    if (s.data && s.data.session) enterApp(s.data.session);
+    else showLogin();
+  })();
+</script>
+
+</body>
+</html>

@@ -1152,27 +1152,34 @@
   }
 
   /* ===================================================================
-     [리드 폼 → 웹앱 연동 설정]
+     [리드 폼 → Supabase 연동 설정]  (docs/lead-app/PLAN.md §5)
 
-     리드를 받을 웹앱(백엔드)이 준비되면 아래 LEAD_ENDPOINT에 수신 URL을
-     입력하세요.  예: var LEAD_ENDPOINT = "https://내웹앱.workers.dev/api/leads";
+     제출된 리드는 Supabase(obliv-foreigner) REST API로 직접 INSERT 됩니다.
+       POST {LEAD_ENDPOINT}  = {SUPABASE_URL}/rest/v1/leads
+       headers: apikey / Authorization: Bearer / Prefer: return=minimal
 
-     폼은 해당 URL로 아래 형식의 JSON을 POST 합니다.
+     폼이 보내는 JSON (컬럼명과 동일한 snake_case):
      {
-       "name":        "홍길동",
-       "messenger":   "whatsapp" | "line" | "wechat" | "kakaotalk",
-       "contact":     "메신저 ID 또는 전화번호",
-       "nationality": "KR" 등 ISO 코드 ("OTHER" 포함),
-       "lang":        "ko" | "en" | "zh" | "ja",   // 제출 당시 페이지 언어
-       "source":      "voucher",
-       "submittedAt": "2026-08-19T12:34:56.000Z"
+       "name":         "홍길동",
+       "messenger":    "whatsapp" | "line" | "wechat" | "kakaotalk",
+       "contact":      "메신저 ID 또는 전화번호",
+       "nationality":  "KR" 등 ISO 코드 ("OTHER" 포함),
+       "lang":         "ko" | "en" | "zh" | "ja",   // 제출 당시 페이지 언어
+       "source":       "voucher",
+       "submitted_at": "2026-08-19T12:34:56.000Z"
      }
 
-     ※ URL이 비어 있는 동안에는 리드가 서버에 저장되지 않습니다.
-        (테스트용으로 브라우저 콘솔과 해당 기기의 localStorage에만 기록)
-        실제 손님에게 안내하기 전에 반드시 URL을 연결해주세요.
+     SUPABASE_KEY는 공개용(publishable) 키이며, RLS에 의해 이 키로 가능한
+     일은 "leads INSERT" 하나뿐입니다 — 조회/수정/삭제 불가
+     (supabase/migrations/0001_leads.sql).
+
+     ※ LEAD_ENDPOINT를 비우면 서버 저장 없이 브라우저 콘솔과 해당 기기의
+        localStorage에만 기록되는 테스트 모드로 동작합니다(기존 동작 유지).
+     ※ 401 오류가 나면 SUPABASE_KEY를 legacy anon(JWT) 키로 교체하세요
+        (docs/lead-app/BRIEF.md CONFIG · DEV-NOTES.md 참고).
      =================================================================== */
-  var LEAD_ENDPOINT = "";
+  var LEAD_ENDPOINT = "https://dqnjbheejjtoitrbzxmp.supabase.co/rest/v1/leads";
+  var SUPABASE_KEY = "sb_publishable_4z1mUiKCaP67VRYyjoGGig_9JukGA_1";
 
   function selectedMessenger() {
     var checked = document.querySelector('#msgrGrid input:checked');
@@ -1244,7 +1251,7 @@
       nationality: nationality,
       lang: currentLang,
       source: 'voucher',
-      submittedAt: new Date().toISOString()
+      submitted_at: new Date().toISOString()   // DB 컬럼명(snake_case)과 일치
     };
 
     var btn = document.getElementById('submitBtn');
@@ -1258,7 +1265,12 @@
       btn.disabled = true;
       fetch(LEAD_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Prefer': 'return=minimal'   // anon은 SELECT 불가 — 삽입 후 행 반환 금지 (PLAN §5.4)
+        },
         body: JSON.stringify(payload)
       }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
