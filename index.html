@@ -2,417 +2,1306 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>오블리브의원 서울 오리진</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>OBLIV × UH.SUITE 투숙객 전용 바우처</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Gowun+Batang:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --pink: #ff9ec4;
-    --pink-deep: #ff6fa5;
-    --blue: #8ec9f2;
-    --mint: #9fe0d0;
-    --yellow: #ffd47a;
-    --purple: #c3aef0;
-    --cream: #fff6fb;
-    --ink: #5b4a55;
-    --soft-shadow: 0 10px 30px rgba(255, 130, 175, 0.25);
+    --black: #0c0c0e;
+    --charcoal: #17161a;
+    --charcoal-2: #1f1e22;
+    --gold: #c9a75e;
+    --gold-light: #e8d9b0;
+    --gold-deep: #a4813f;
+    --ivory: #f6f2ea;
+    --muted: #a9a39a;
+    --line: rgba(201, 167, 94, 0.28);
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-behavior: smooth; }
 
   body {
     margin: 0;
-    font-family: 'Gowun Dodum', sans-serif;
-    color: var(--ink);
-    background: linear-gradient(160deg, #fff0f7 0%, #f3f0ff 45%, #eafaf6 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
+    background: var(--black);
+    color: var(--ivory);
+    font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding-bottom: 84px; /* space for sticky CTA */
   }
 
-  h1, h2, h3, .brand, .navlink { font-family: 'Jua', sans-serif; }
+  .serif { font-family: 'Gowun Batang', 'Noto Serif SC', 'Noto Serif JP', serif; font-weight: 700; }
+  .display { font-family: 'Cormorant Garamond', serif; }
 
-  /* ===== 상단 메뉴바 ===== */
-  header {
+  .wrap { max-width: 480px; margin: 0 auto; padding: 0 22px; }
+
+  a { color: inherit; }
+
+  /* ===== 언어 선택 바 ===== */
+  .lang-bar {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.85);
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: rgba(12,12,14,0.94);
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(180, 150, 200, 0.18);
-    padding: 14px 24px;
+    border-bottom: 1px solid var(--line);
   }
-
-  .nav-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .brand {
-    font-size: 22px;
-    color: var(--pink-deep);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-  }
-
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .navlink {
-    border: none;
-    cursor: pointer;
-    font-size: 15px;
-    color: var(--ink);
+  .lang-btn {
+    border: 1px solid var(--line);
     background: transparent;
-    padding: 10px 16px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    padding: 7px 13px;
     border-radius: 999px;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s ease;
   }
-  .navlink:hover { background: #ffe3ef; color: var(--pink-deep); transform: translateY(-2px); }
-  .navlink.active {
-    background: linear-gradient(180deg, #ffa9cd, #ff7fb0);
-    color: #fff;
-    box-shadow: 0 6px 14px rgba(255, 120, 170, 0.4);
-  }
-
-  /* ===== 본문 영역 ===== */
-  main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
+  .lang-btn.active {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    border-color: transparent;
+    font-weight: 700;
   }
 
-  .panel { display: none; animation: fade 0.4s ease; }
-  .panel.show { display: block; }
-  @keyframes fade { from { opacity: 0; transform: translateY(10px);} to {opacity:1; transform:none;} }
-
-  /* ===== 히어로 ===== */
-  .hero {
-    display: flex;
-    flex-direction: column;
+  /* ===== 상단 협업 헤더 ===== */
+  .collab-header {
     text-align: center;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 34px;
-    padding: 0;
-    box-shadow: var(--soft-shadow);
-    margin-bottom: 32px;
-    overflow: hidden;
+    padding: 40px 22px 34px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.16), transparent 60%),
+      var(--black);
+    border-bottom: 1px solid var(--line);
   }
-  .hero-banner {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 21 / 8;
-    overflow: hidden;
-    background: linear-gradient(120deg, #ffe0ee 0%, #ffe9f2 40%, #fff2f8 60%, #ffe0ee 100%);
-  }
-  .hero-banner-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center 30%;
-    filter: blur(40px) saturate(1.15) brightness(1.05);
-    transform: scale(1.2);
-  }
-  .hero-banner-tint {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(255,158,196,0.35), rgba(255,214,235,0.15) 50%, rgba(255,158,196,0.35));
-  }
-  .hero-banner-fg {
-    position: relative;
-    z-index: 1;
-    height: 100%;
-    width: auto;
-    max-width: 100%;
-    margin: 0 auto;
-    display: block;
-    object-fit: contain;
-    object-position: center center;
-    box-shadow: 0 0 60px 10px rgba(255,255,255,0.35);
-  }
-  @media (max-width: 640px) {
-    .hero-banner-fg { height: auto; width: 100%; }
-  }
-  .hero-text { padding: 36px 28px 44px; }
-  .hero .badge {
+  .eyebrow {
     display: inline-block;
-    background: #fff0f7;
-    color: var(--pink-deep);
-    padding: 6px 16px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    border: 1px solid var(--line);
+    padding: 6px 14px;
     border-radius: 999px;
-    font-size: 14px;
-    margin-bottom: 16px;
+    margin-bottom: 22px;
   }
-  .hero h1 { font-size: 34px; margin: 8px 0 14px; color: #ff5f9e; }
-  .hero p { font-size: 17px; line-height: 1.7; margin: 0 auto; max-width: 520px; }
-
-  @media (max-width: 640px) {
-    .hero-banner { aspect-ratio: 4 / 3; }
-    .hero-text { padding: 28px 22px 34px; }
-  }
-
-  /* ===== 카드 ===== */
-  .card {
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 28px;
-    padding: 34px 30px;
-    box-shadow: var(--soft-shadow);
-    margin-bottom: 26px;
-  }
-  .card h2 { font-size: 24px; margin: 0 0 20px; color: var(--pink-deep); }
-
-  /* ===== 뽀용 버튼 ===== */
-  .btn-row { display: flex; flex-wrap: wrap; gap: 16px; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #fff;
-    font-family: 'Jua', sans-serif;
-    font-size: 17px;
-    padding: 15px 26px;
-    border-radius: 999px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12), inset 0 2px 4px rgba(255,255,255,0.5);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn:hover { transform: translateY(-3px) scale(1.03); }
-  .btn:active { transform: translateY(1px) scale(0.98); }
-  .btn-call  { background: linear-gradient(180deg, #ff9ec4, #ff6fa5); }
-  .btn-info  { background: linear-gradient(180deg, #8ec9f2, #5aa9e6); }
-  .btn-map   { background: linear-gradient(180deg, #ffd47a, #ffb547); }
-  .btn-kakao { background: linear-gradient(180deg, #ffe14d, #f5c400); color: #3a2e0f; }
-
-  .menu-line {
+  .collab-lockup {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 14px;
     flex-wrap: wrap;
-    margin: 14px 0;
-    font-size: 16px;
+  }
+  .collab-lockup .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    letter-spacing: 1.5px;
+    color: var(--ivory);
+    line-height: 1.4;
+  }
+  .collab-lockup .x {
+    font-size: 15px;
+    color: var(--gold);
+  }
+  .collab-sub {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+  .collab-title {
+    margin-top: 14px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ivory);
+  }
+  .gold-rule {
+    width: 46px;
+    height: 1px;
+    background: var(--gold);
+    margin: 20px auto;
   }
 
-  .menu-block { margin-bottom: 22px; }
-  .menu-block:last-child { margin-bottom: 0; }
-
-  /* ===== 지도 ===== */
-  .map-wrap {
-    margin: 14px 0 22px;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  }
-  .map-wrap iframe {
+  /* ===== 초대장풍 바우처 배지 ===== */
+  .voucher-badge {
+    position: relative;
+    margin: 26px auto 0;
+    padding: 30px 22px;
     width: 100%;
-    height: 260px;
-    border: 0;
+    max-width: 400px;
+    border: 1px solid var(--gold);
+    outline: 1px solid rgba(201,167,94,0.5);
+    outline-offset: 7px;
+    border-radius: 2px;
+    background:
+      repeating-linear-gradient(135deg, rgba(201,167,94,0.07) 0px, rgba(201,167,94,0.07) 1px, transparent 1px, transparent 9px),
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.14), transparent 65%),
+      linear-gradient(160deg, #16151c, #0e0d12 60%);
+  }
+
+  /* 네 모서리 장식 (액자풍 코너 브래킷 + 포인트) */
+  .voucher-badge .corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+  }
+  .voucher-badge .corner.tl { top: -8px; left: -8px; }
+  .voucher-badge .corner.tr { top: -8px; right: -8px; }
+  .voucher-badge .corner.bl { bottom: -8px; left: -8px; }
+  .voucher-badge .corner.br { bottom: -8px; right: -8px; }
+  .voucher-badge .corner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1.6px solid var(--gold);
+  }
+  .voucher-badge .corner.tl::before { border-width: 1.6px 0 0 1.6px; }
+  .voucher-badge .corner.tr::before { border-width: 1.6px 1.6px 0 0; }
+  .voucher-badge .corner.bl::before { border-width: 0 0 1.6px 1.6px; }
+  .voucher-badge .corner.br::before { border-width: 0 1.6px 1.6px 0; }
+  .voucher-badge .corner::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    box-shadow: 0 0 5px rgba(232,217,176,0.7);
+  }
+  .voucher-badge .corner.tl::after { top: -2.5px; left: -2.5px; }
+  .voucher-badge .corner.tr::after { top: -2.5px; right: -2.5px; }
+  .voucher-badge .corner.bl::after { bottom: -2.5px; left: -2.5px; }
+  .voucher-badge .corner.br::after { bottom: -2.5px; right: -2.5px; }
+
+  /* 서브텍스트 · 타이틀 사이 장식 구분선 */
+  .badge-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px auto;
+    max-width: 220px;
+  }
+  .badge-divider span.line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .badge-divider span.diamond {
+    color: var(--gold);
+    font-size: 10px;
+    transform: rotate(0deg);
+  }
+
+  /* ===== 섹션 공통 ===== */
+  .section { padding: 46px 0; }
+  .section.alt { background: var(--charcoal); }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ivory);
+    margin: 0 0 12px;
+  }
+  .section-desc {
+    font-size: 14.5px;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+
+  /* ===== 기기 카드 ===== */
+  .device-card {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 34px 22px;
+    background: linear-gradient(160deg, rgba(201,167,94,0.08), transparent 60%);
+    text-align: center;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .device-photo-frame {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px;
+    margin: 0 auto 18px;
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .device-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+  .device-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+  .device-tagline {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .stat-chip {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 6px;
+    text-align: center;
+    background: var(--charcoal-2);
+  }
+  .stat-chip .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    color: var(--gold);
     display: block;
   }
+  .stat-chip .label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
 
-  .note {
-    margin-top: 26px;
-    font-size: 14px;
-    color: #a897a3;
-    background: #fdf4fa;
+  /* ===== 진단 예시 그리드 ===== */
+  .diag-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .diag-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 12px 12px 18px;
+    text-align: center;
+    background: var(--charcoal-2);
+  }
+  .diag-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+    background: #000;
+  }
+  .diag-name {
+    font-size: 13.5px;
+    color: var(--ivory);
+    font-weight: 500;
+  }
+  .diag-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  /* ===== 진단 리포트 예시 (이미지) ===== */
+  .report-card {
+    margin-top: 22px;
+    border: 1px solid var(--line);
     border-radius: 18px;
-    padding: 16px 20px;
+    padding: 24px 22px 22px;
+    background: var(--charcoal-2);
+  }
+  .report-eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .report-title {
+    font-size: 15.5px;
+    font-weight: 500;
+    color: var(--ivory);
+    margin-bottom: 18px;
+  }
+  .report-photo-frame {
+    background: linear-gradient(155deg, #f6f2ea, #e9e2d3);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .report-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+  .report-note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: #7c766c;
     line-height: 1.6;
   }
 
-  /* ===== 준비중 섹션 ===== */
-  .soon {
-    text-align: center;
-    padding: 70px 28px;
+  /* ===== 이용약관 ===== */
+  .terms-card {
+    border-left: 2px solid var(--gold);
+    padding: 4px 0 4px 18px;
   }
-  .soon .emoji { font-size: 64px; }
-  .soon h2 { font-size: 28px; margin: 16px 0 10px; }
-  .soon p { font-size: 16px; line-height: 1.7; color: #8a7a86; }
-  .pill {
+  .terms-card ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .terms-card li {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .terms-card li:last-child { margin-bottom: 0; }
+
+  /* ===== 시술 할인권 (Part 2) ===== */
+  .badge-soon {
     display: inline-block;
-    margin-top: 18px;
-    background: #ffe3ef;
-    color: var(--pink-deep);
-    padding: 8px 20px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--black);
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    padding: 5px 12px;
     border-radius: 999px;
-    font-family: 'Jua', sans-serif;
+    margin-bottom: 18px;
+    font-weight: 500;
   }
+  .procedure-card {
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .procedure-card:last-child { margin-bottom: 0; }
+  .procedure-name {
+    font-size: 14.5px;
+    color: var(--ivory);
+    font-weight: 500;
+  }
+  .procedure-name .tbd {
+    display: block;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 3px;
+  }
+  .procedure-discount {
+    flex: 0 0 auto;
+    text-align: center;
+    min-width: 64px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .procedure-discount .pct {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+  }
+  .procedure-discount .pct-label {
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== 이용안내 (하단) ===== */
+  .info-card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 22px;
+    background: var(--charcoal-2);
+  }
+  .info-row {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13.5px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .icon { color: var(--gold); flex: 0 0 20px; }
+  .info-row .k { color: var(--muted); flex: 0 0 76px; }
+  .info-row .v { color: var(--ivory); }
 
   footer {
     text-align: center;
-    padding: 30px 20px 50px;
-    color: #b8a7b3;
-    font-size: 14px;
+    padding: 40px 22px 20px;
+    font-size: 11.5px;
+    color: #6f6a62;
+    letter-spacing: 0.5px;
   }
 
-  @media (max-width: 640px) {
-    .brand { font-size: 18px; }
-    .navlink { font-size: 13px; padding: 8px 12px; }
-    .hero h1 { font-size: 26px; }
+  /* ===== 하단 고정 CTA ===== */
+  .sticky-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 200;
+    background: rgba(12,12,14,0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+    transition: transform 0.25s ease, opacity 0.25s ease;
   }
+  .sticky-cta.hide {
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+  }
+  .sticky-cta a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px;
+    border-radius: 999px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ===== 예약 문의 리드 폼 ===== */
+  [hidden] { display: none !important; }
+
+  #lead { scroll-margin-top: 70px; }
+
+  .lead-card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 20px 24px;
+    background: var(--charcoal-2);
+  }
+  .field { margin-bottom: 20px; }
+  .field-label {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    margin-bottom: 9px;
+  }
+  .text-input, .select-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 13px 15px;
+    color: var(--ivory);
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .text-input::placeholder { color: #6f6a62; }
+  .text-input:focus, .select-input:focus {
+    border-color: var(--gold);
+    background: rgba(201,167,94,0.06);
+  }
+
+  .msgr-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 400px) {
+    .msgr-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .msgr-chip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 13px 4px 11px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .msgr-chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .msgr-chip svg { width: 26px; height: 26px; display: block; }
+  .msgr-chip .msgr-name {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+  .msgr-chip.checked {
+    border-color: var(--gold);
+    background: rgba(201,167,94,0.12);
+    box-shadow: 0 0 0 1px var(--gold) inset;
+  }
+  .msgr-chip.checked .msgr-name { color: var(--gold-light); }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    pointer-events: none;
+    font-size: 13px;
+  }
+  .select-input {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  .select-input.placeholder { color: #6f6a62; }
+  .select-input option {
+    color: var(--ivory);
+    background: var(--charcoal-2);
+  }
+
+  .field.invalid .text-input,
+  .field.invalid .select-input,
+  .field.invalid .msgr-chip { border-color: #c4604f; }
+
+  .form-error {
+    margin: -6px 0 14px;
+    font-size: 12.5px;
+    color: #e08a7a;
+  }
+  .submit-btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+    color: #201705;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: inherit;
+    padding: 15px;
+    border-radius: 999px;
+    transition: transform 0.12s ease, opacity 0.15s ease;
+  }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { opacity: 0.6; cursor: default; }
+  .form-note {
+    margin: 14px 0 0;
+    font-size: 11px;
+    color: #6f6a62;
+    text-align: center;
+  }
+
+  .lead-success {
+    border: 1px solid var(--gold);
+    border-radius: 18px;
+    padding: 40px 22px;
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.14), transparent 65%),
+      var(--charcoal-2);
+  }
+  .success-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .success-title { font-size: 20px; color: var(--ivory); margin-bottom: 8px; }
+  .success-desc { font-size: 13.5px; color: var(--muted); margin: 0; }
 </style>
 </head>
 <body>
 
-<!-- ===== 상단 메뉴바 ===== -->
-<header>
-  <div class="nav-inner">
-    <div class="brand">🏥 오블리브의원 서울 오리진</div>
-    <nav>
-      <button class="navlink active" data-target="home">오블리브의원 서울 오리진</button>
-      <button class="navlink" data-target="skin">피부센터</button>
-      <button class="navlink" data-target="body">체형센터</button>
-      <button class="navlink" data-target="scalp">두피센터</button>
-      <button class="navlink" data-target="nail">발톱센터</button>
-      <button class="navlink" data-target="semi">반영구센터</button>
-    </nav>
+  <!-- ===== 언어 선택 바 ===== -->
+  <div class="lang-bar" role="tablist" aria-label="Language selector">
+    <button class="lang-btn active" data-lang="ko" onclick="setLang('ko')">한국어</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">ENG</button>
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" data-lang="ja" onclick="setLang('ja')">日本語</button>
   </div>
-</header>
 
-<main>
-
-  <!-- ===== 오블리브의원 서울 오리진 (임시 페이지 내용) ===== -->
-  <section class="panel show" id="home">
-    <div class="hero">
-      <div class="hero-banner">
-        <div class="hero-banner-bg" style="background-image:url('hero-model.jpg')"></div>
-        <div class="hero-banner-tint"></div>
-        <img class="hero-banner-fg" src="hero-model.jpg" alt="희고 맑은 피부의 K-pop 아이돌st 여성 모델 이미지" />
-      </div>
-      <div class="hero-text">
-        <span class="badge">✨ 리뉴얼 임시 테스트 페이지</span>
-        <h1>오블리브의원 서울 오리진</h1>
-        <p>안녕하세요! Joy 마케터의 깃허브 연습 공간입니다.<br />클로드로 기획한 내용을 나중에 여기에 담아갈 예정이에요. 🌸</p>
-      </div>
+  <!-- ===== 협업 헤더 ===== -->
+  <div class="collab-header">
+    <span class="eyebrow">SPECIAL COLLABORATION</span>
+    <div class="collab-lockup">
+      <span class="brand">OBLIV CLINIC<br />SEOUL ORIGIN</span>
+      <span class="x">✕</span>
+      <span class="brand">UH.SUITE<br />SEOUL INSADONG</span>
     </div>
+    <div class="gold-rule"></div>
+    <div class="voucher-badge">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+      <div class="collab-sub" data-i18n="collabSub">UH.SUITE SEOUL INSADONG 투숙객만을 위한</div>
+      <div class="badge-divider"><span class="line"></span><span class="diamond">◆</span><span class="line"></span></div>
+      <div class="collab-title serif" data-i18n="collabTitle">프리미엄 뷰티 바우처</div>
+    </div>
+  </div>
 
-    <div class="card">
-      <h2>📌 주요 메뉴 안내</h2>
+  <div class="wrap">
 
-      <!-- 진료안내 -->
-      <div class="menu-block">
-        <div class="btn-row">
-          <a class="btn btn-info" href="https://oblivseoul-sveltekit-staging.jh-bo.workers.dev/" target="_blank" rel="noopener">🏥 진료안내</a>
+    <!-- ===== PART 1. 마크뷰 ===== -->
+    <div class="section">
+      <div class="section-eyebrow" data-i18n="sec1Eyebrow">PART 1 · 마크뷰 체험권 증정</div>
+      <h2 class="section-title serif" data-i18n="sec1Title">마크뷰 정밀 피부 진단 프로그램</h2>
+      <p class="section-desc" data-i18n="sec1Desc">1,800만 화소 4대 광원 AI 카메라가 피부 표면부터 속까지 정밀하게 촬영·분석해, 지금 내 피부 상태를 객관적인 데이터로 확인할 수 있는 프로그램입니다.</p>
+
+      <div class="device-card">
+        <div class="device-photo-frame">
+          <img class="device-photo" src="mark-vu-device.gif" alt="마크뷰 AI 피부 진단 기기" />
         </div>
-        <div class="menu-line">🏥 <b>진료안내</b> : 두피부터 발끝까지 전신 메디컬 케어</div>
+        <div class="device-name display">MARK VIEW</div>
+        <div class="device-tagline" data-i18n="deviceTagline">AI 정밀 피부 진단 카메라</div>
       </div>
 
-      <!-- 오시는길 -->
-      <div class="menu-block">
-        <div class="btn-row">
-          <a class="btn btn-map" href="https://oblivseoul-sveltekit-staging.jh-bo.workers.dev/beauty/information/location" target="_blank" rel="noopener">📍 오시는길</a>
+      <div class="stat-row">
+        <div class="stat-chip">
+          <span class="num" data-i18n="statNum1">1,800만</span>
+          <span class="label" data-i18n="statLabel1">화소</span>
         </div>
-        <div class="menu-line">📍 <b>오시는길</b> : 서울 종로구 청계천로 93</div>
-
-        <!-- 구글 지도 -->
-        <div class="map-wrap">
-          <iframe
-            src="https://maps.google.com/maps?q=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%B2%AD%EA%B3%84%EC%B2%9C%EB%A1%9C%2093&z=16&output=embed"
-            loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+        <div class="stat-chip">
+          <span class="num" data-i18n="statNum2">4대</span>
+          <span class="label" data-i18n="statLabel2">광원 시스템</span>
+        </div>
+        <div class="stat-chip">
+          <span class="num">AI</span>
+          <span class="label" data-i18n="statLabel3">정밀 분석</span>
         </div>
       </div>
 
-      <!-- 전화걸기 + 카톡상담 -->
-      <div class="menu-block">
-        <div class="btn-row">
-          <a class="btn btn-call" href="tel:02-123-4567">📞 전화걸기</a>
-          <a class="btn btn-kakao" href="#" target="_blank" rel="noopener">💬 카톡상담</a>
+      <div class="diag-grid">
+        <div class="diag-card">
+          <img class="diag-photo" src="diagnosis-1.png" alt="색소 · 잡티 진단 예시" />
+          <div class="diag-name" data-i18n="diagName1">색소 · 잡티</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
         </div>
-        <div class="menu-line">📞 <b>전화</b> : 02-123-4567</div>
+        <div class="diag-card">
+          <img class="diag-photo" src="diagnosis-2.png" alt="모공 상태 진단 예시" />
+          <div class="diag-name" data-i18n="diagName2">모공 상태</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
+        <div class="diag-card">
+          <img class="diag-photo" src="diagnosis-3.png" alt="주름 · 탄력 진단 예시" />
+          <div class="diag-name" data-i18n="diagName3">주름 · 탄력</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
+        <div class="diag-card">
+          <img class="diag-photo" src="diagnosis-4.png" alt="수분 · 유분 진단 예시" />
+          <div class="diag-name" data-i18n="diagName4">수분 · 유분</div>
+          <div class="diag-sub" data-i18n="diagSub">진단 예시</div>
+        </div>
       </div>
 
-      <div class="note">
-        이 페이지는 상급자님이 웹 프레임워크를 연동하기 전, 마케터가 깃허브 시스템을 익히기 위한 예시 화면입니다.
+      <div class="report-card">
+        <div class="report-eyebrow">SAMPLE REPORT</div>
+        <div class="report-title" data-i18n="reportTitle">진단 리포트 예시</div>
+
+        <div class="report-photo-frame">
+          <img class="report-photo" src="diagnosis-report.png" alt="진단 리포트 예시" />
+        </div>
+
+        <div class="report-note" data-i18n="reportNote">* 예시 데이터이며, 실제 결과는 촬영 후 제공됩니다.</div>
       </div>
     </div>
-  </section>
 
-  <!-- ===== 피부센터 ===== -->
-  <section class="panel" id="skin">
-    <div class="card soon">
-      <div class="emoji">💆‍♀️</div>
-      <h2>피부센터</h2>
-      <p>맑고 건강한 피부를 위한 오블리브의 피부센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
+    <!-- ===== 이용약관 ===== -->
+    <div class="section alt">
+      <div class="section-eyebrow" data-i18n="termsEyebrow">이용 약관</div>
+      <div class="terms-card">
+        <ul>
+          <li data-i18n="termsLi1">본 바우처는 UH.SUITE SEOUL INSADONG 투숙객 전용 혜택으로, 타인에게 양도 및 판매가 불가능합니다.</li>
+          <li data-i18n="termsLi2">사전 예약제로 운영되오니 방문 전 반드시 원내로 예약 문의 부탁드립니다.</li>
+          <li data-i18n="termsLi3">진단 후 추가적인 개별 의료 시술이나 처방이 진행될 경우 별도의 비용이 발생할 수 있습니다.</li>
+        </ul>
+      </div>
     </div>
-  </section>
 
-  <!-- ===== 체형센터 ===== -->
-  <section class="panel" id="body">
-    <div class="card soon">
-      <div class="emoji">🧘‍♀️</div>
-      <h2>체형센터</h2>
-      <p>몸의 균형을 바로잡는 체형센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
+    <!-- ===== PART 2. 시술 할인권 ===== -->
+    <div class="section">
+      <div class="section-eyebrow" data-i18n="sec2Eyebrow">PART 2 · 병원 시술 할인권</div>
+      <h2 class="section-title serif" data-i18n="sec2Title">투숙객 전용 시술 혜택</h2>
+      <span class="badge-soon" data-i18n="badgeSoon">세부 내용 추후 공개 예정</span>
+
+      <div class="procedure-card">
+        <div class="procedure-name"><span data-i18n="procName">시술명 예정</span><span class="tbd" data-i18n="procSub">상세 내용 업데이트 예정</span></div>
+        <div class="procedure-discount"><span class="pct">-%</span><span class="pct-label" data-i18n="pctLabel">DC</span></div>
+      </div>
+      <div class="procedure-card">
+        <div class="procedure-name"><span data-i18n="procName">시술명 예정</span><span class="tbd" data-i18n="procSub">상세 내용 업데이트 예정</span></div>
+        <div class="procedure-discount"><span class="pct">-%</span><span class="pct-label" data-i18n="pctLabel">DC</span></div>
+      </div>
+      <div class="procedure-card">
+        <div class="procedure-name"><span data-i18n="procName">시술명 예정</span><span class="tbd" data-i18n="procSub">상세 내용 업데이트 예정</span></div>
+        <div class="procedure-discount"><span class="pct">-%</span><span class="pct-label" data-i18n="pctLabel">DC</span></div>
+      </div>
     </div>
-  </section>
 
-  <!-- ===== 두피센터 ===== -->
-  <section class="panel" id="scalp">
-    <div class="card soon">
-      <div class="emoji">💇‍♀️</div>
-      <h2>두피센터</h2>
-      <p>건강한 두피와 모발을 위한 두피센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
+    <!-- ===== 이용안내 ===== -->
+    <div class="section alt">
+      <div class="section-eyebrow" data-i18n="infoEyebrow">이용 안내</div>
+      <div class="info-card">
+        <div class="info-row">
+          <div class="icon">☎</div>
+          <div class="k" data-i18n="infoK1">사용 문의</div>
+          <div class="v"><a href="tel:02-6956-3438">02-6956-3438</a></div>
+        </div>
+        <div class="info-row">
+          <div class="icon">🕐</div>
+          <div class="k" data-i18n="infoK2">운영 시간</div>
+          <div class="v" data-i18n="infoV2">월-금 10:00 - 21:00<br />토-일 10:00 - 19:00</div>
+        </div>
+        <div class="info-row">
+          <div class="icon">📍</div>
+          <div class="k" data-i18n="infoK4">병원 위치</div>
+          <div class="v" data-i18n="infoV4">서울특별시 종로구 청계천로 93 파고다타워 1F</div>
+        </div>
+        <div class="info-row">
+          <div class="icon">📅</div>
+          <div class="k" data-i18n="infoK3">이용 기간</div>
+          <div class="v" data-i18n="infoV3">투숙 기간 내 한정</div>
+        </div>
+      </div>
     </div>
-  </section>
 
-  <!-- ===== 발톱센터 ===== -->
-  <section class="panel" id="nail">
-    <div class="card soon">
-      <div class="emoji">🦶</div>
-      <h2>발톱센터</h2>
-      <p>발끝까지 케어하는 발톱센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
+    <!-- ===== 예약 문의 리드 폼 ===== -->
+    <div class="section" id="lead">
+      <div class="section-eyebrow" data-i18n="leadEyebrow">RESERVATION</div>
+      <h2 class="section-title serif" data-i18n="leadTitle">예약 문의 남기기</h2>
+      <p class="section-desc" data-i18n="leadDesc">아래 정보를 남겨주시면 선택하신 메신저로 예약 안내를 도와드립니다.</p>
+
+      <div class="lead-card" id="leadCard">
+        <form id="leadForm" novalidate>
+
+          <div class="field" id="fieldName">
+            <label class="field-label" for="leadName" data-i18n="labelName">이름</label>
+            <input class="text-input" type="text" id="leadName" name="name" autocomplete="name" data-i18n-ph="phName" placeholder="성함을 입력해주세요" />
+          </div>
+
+          <div class="field" id="fieldMsgr">
+            <span class="field-label" data-i18n="labelMessenger">연락받을 메신저</span>
+            <div class="msgr-grid" id="msgrGrid" role="radiogroup">
+              <label class="msgr-chip">
+                <input type="radio" name="messenger" value="whatsapp" />
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                <span class="msgr-name" data-i18n="msgWhatsapp">왓츠앱</span>
+              </label>
+              <label class="msgr-chip">
+                <input type="radio" name="messenger" value="line" />
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#06C755" d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+                <span class="msgr-name" data-i18n="msgLine">라인</span>
+              </label>
+              <label class="msgr-chip">
+                <input type="radio" name="messenger" value="wechat" />
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#07C160" d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                <span class="msgr-name" data-i18n="msgWechat">위챗</span>
+              </label>
+              <label class="msgr-chip">
+                <input type="radio" name="messenger" value="kakaotalk" />
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FEE500" d="M22.125 0H1.875C.8394 0 0 .8394 0 1.875v20.25C0 23.1606.8394 24 1.875 24h20.25C23.1606 24 24 23.1606 24 22.125V1.875C24 .8394 23.1606 0 22.125 0zM12 18.75c-.591 0-1.1697-.0413-1.7317-.1209-.5626.3965-3.813 2.6797-4.1198 2.7225 0 0-.1258.0489-.2328-.0141s-.0876-.2282-.0876-.2282c.0322-.2198.8426-3.0183.992-3.5333-2.7452-1.36-4.5701-3.7686-4.5701-6.5135C2.25 6.8168 6.6152 3.375 12 3.375s9.75 3.4418 9.75 7.6875c0 4.2457-4.3652 7.6875-9.75 7.6875zM8.0496 9.8672h-.8777v3.3417c0 .2963-.2523.5372-.5625.5372s-.5625-.2409-.5625-.5372V9.8672h-.8777c-.3044 0-.552-.2471-.552-.5508s.2477-.5508.552-.5508h2.8804c.3044 0 .552.2471.552.5508s-.2477.5508-.552.5508zm10.9879 2.9566a.558.558 0 0 1 .108.4167.5588.5588 0 0 1-.2183.371.5572.5572 0 0 1-.3383.1135.558.558 0 0 1-.4493-.2236l-1.3192-1.7479-.1952.1952v1.2273a.5635.5635 0 0 1-.5627.5628.563.563 0 0 1-.5625-.5625V9.3281c0-.3102.2523-.5625.5625-.5625s.5625.2523.5625.5625v1.209l1.5694-1.5694c.0807-.0807.1916-.1252.312-.1252.1404 0 .2814.0606.3871.1661.0985.0984.1573.2251.1654.3566.0082.1327-.036.2542-.1241.3425l-1.2818 1.2817 1.3845 1.8344zm-8.3502-3.5023c-.095-.2699-.3829-.5475-.7503-.5557-.3663.0083-.6542.2858-.749.5551l-1.3455 3.5415c-.1708.5305-.0217.7272.1333.7988a.8568.8568 0 0 0 .3576.0776c.2346 0 .4139-.0952.4678-.2481l.2787-.7297 1.7152.0001.2785.7292c.0541.1532.2335.2484.4681.2484a.8601.8601 0 0 0 .3576-.0775c.1551-.0713.3041-.2681.1329-.7999l-1.3449-3.5398zm-1.3116 2.4433l.5618-1.5961.5618 1.5961H9.3757zm5.9056 1.3836c0 .2843-.2418.5156-.5391.5156h-1.8047c-.2973 0-.5391-.2314-.5391-.5156V9.3281c0-.3102.2576-.5625.5742-.5625s.5742.2523.5742.5625v3.3047h1.1953c.2974 0 .5392.2314.5392.5156z"/></svg>
+                <span class="msgr-name" data-i18n="msgKakao">카카오톡</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field" id="fieldContact">
+            <label class="field-label" for="leadContact" data-i18n="labelContact">메신저 ID · 전화번호</label>
+            <input class="text-input" type="text" id="leadContact" name="contact" placeholder="선택하신 메신저의 ID를 입력해주세요" />
+          </div>
+
+          <div class="field" id="fieldNat">
+            <label class="field-label" for="leadNationality" data-i18n="labelNationality">국적</label>
+            <div class="select-wrap">
+              <select class="select-input placeholder" id="leadNationality" name="nationality">
+                <option value="" data-i18n="natPlaceholder">국적을 선택해주세요</option>
+                <option value="KR" data-i18n="natKR">🇰🇷 대한민국</option>
+                <option value="US" data-i18n="natUS">🇺🇸 미국</option>
+                <option value="CN" data-i18n="natCN">🇨🇳 중국</option>
+                <option value="JP" data-i18n="natJP">🇯🇵 일본</option>
+                <option value="TW" data-i18n="natTW">🇹🇼 대만</option>
+                <option value="HK" data-i18n="natHK">🇭🇰 홍콩</option>
+                <option value="SG" data-i18n="natSG">🇸🇬 싱가포르</option>
+                <option value="TH" data-i18n="natTH">🇹🇭 태국</option>
+                <option value="VN" data-i18n="natVN">🇻🇳 베트남</option>
+                <option value="RU" data-i18n="natRU">🇷🇺 러시아</option>
+                <option value="OTHER" data-i18n="natOther">🌏 기타</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-error" id="formError" hidden></div>
+
+          <button type="submit" class="submit-btn" id="submitBtn"><span data-i18n="submitBtn">문의 제출하기</span></button>
+          <p class="form-note" data-i18n="formNote">* 남겨주신 정보는 예약 상담 목적으로만 사용됩니다.</p>
+        </form>
+      </div>
+
+      <div class="lead-success" id="leadSuccess" hidden>
+        <div class="success-icon">✓</div>
+        <div class="success-title serif" data-i18n="successTitle">문의가 접수되었습니다</div>
+        <p class="success-desc" data-i18n="successDesc">영업시간 내에 선택하신 메신저로 예약 안내를 드리겠습니다.</p>
+      </div>
     </div>
-  </section>
 
-  <!-- ===== 반영구센터 ===== -->
-  <section class="panel" id="semi">
-    <div class="card soon">
-      <div class="emoji">💗</div>
-      <h2>반영구센터</h2>
-      <p>자연스러운 아름다움을 위한 반영구센터 페이지를 준비하고 있어요.</p>
-      <span class="pill">🚧 준비중이에요</span>
-    </div>
-  </section>
+  </div>
 
-</main>
+  <footer>
+    OBLIV CLINIC SEOUL ORIGIN × UH.SUITE SEOUL INSADONG<br />
+    <span data-i18n="footerLine2">본 페이지는 투숙객 전용 바우처 안내를 위해 제작되었습니다.</span>
+  </footer>
 
-<footer>
-  © 오블리브의원 서울 오리진 · 마케팅팀 깃허브 연습 페이지 🌷
-</footer>
+  <div class="sticky-cta" id="stickyCta">
+    <a href="#lead"><span data-i18n="ctaText">📩 예약 문의하기</span></a>
+  </div>
 
 <script>
-  const links = document.querySelectorAll('.navlink');
-  const panels = document.querySelectorAll('.panel');
+  var translations = {
+    ko: {
+      collabSub: "UH.SUITE SEOUL INSADONG 투숙객만을 위한",
+      collabTitle: "프리미엄 뷰티 바우처",
+      sec1Eyebrow: "PART 1 · 마크뷰 체험권 증정",
+      sec1Title: "마크뷰 정밀 피부 진단 프로그램",
+      sec1Desc: "1,800만 화소 4대 광원 AI 카메라가 피부 표면부터 속까지 정밀하게 촬영·분석해, 지금 내 피부 상태를 객관적인 데이터로 확인할 수 있는 프로그램입니다.",
+      deviceTagline: "AI 정밀 피부 진단 카메라",
+      statNum1: "1,800만", statLabel1: "화소",
+      statNum2: "4대", statLabel2: "광원 시스템",
+      statLabel3: "정밀 분석",
+      diagName1: "색소 · 잡티", diagName2: "모공 상태", diagName3: "주름 · 탄력", diagName4: "수분 · 유분",
+      diagSub: "진단 예시",
+      reportTitle: "진단 리포트 예시",
+      reportNote: "* 예시 데이터이며, 실제 결과는 촬영 후 제공됩니다.",
+      termsEyebrow: "이용 약관",
+      termsLi1: "본 바우처는 UH.SUITE SEOUL INSADONG 투숙객 전용 혜택으로, 타인에게 양도 및 판매가 불가능합니다.",
+      termsLi2: "사전 예약제로 운영되오니 방문 전 반드시 원내로 예약 문의 부탁드립니다.",
+      termsLi3: "진단 후 추가적인 개별 의료 시술이나 처방이 진행될 경우 별도의 비용이 발생할 수 있습니다.",
+      sec2Eyebrow: "PART 2 · 병원 시술 할인권",
+      sec2Title: "투숙객 전용 시술 혜택",
+      badgeSoon: "세부 내용 추후 공개 예정",
+      procName: "시술명 예정",
+      procSub: "상세 내용 업데이트 예정",
+      pctLabel: "DC",
+      infoEyebrow: "이용 안내",
+      infoK1: "사용 문의", infoK2: "운영 시간", infoK3: "이용 기간", infoK4: "병원 위치",
+      infoV2: "월-금 10:00 - 21:00<br />토-일 10:00 - 19:00",
+      infoV3: "체크인일로부터 7일간",
+      infoV4: "서울특별시 종로구 청계천로 93 파고다타워 1F",
+      footerLine2: "본 페이지는 투숙객 전용 바우처 안내를 위해 제작되었습니다.",
+      leadEyebrow: "RESERVATION",
+      leadTitle: "예약 문의 남기기",
+      leadDesc: "아래 정보를 남겨주시면 선택하신 메신저로 예약 안내를 도와드립니다.",
+      labelName: "이름",
+      phName: "성함을 입력해주세요",
+      labelMessenger: "연락받을 메신저",
+      msgWhatsapp: "왓츠앱", msgLine: "라인", msgWechat: "위챗", msgKakao: "카카오톡",
+      labelContact: "메신저 ID · 전화번호",
+      phContactDefault: "선택하신 메신저의 ID를 입력해주세요",
+      phContactPhone: "전화번호를 입력해주세요 (국가번호 포함)",
+      phContactId: "메신저 ID를 입력해주세요",
+      labelNationality: "국적",
+      natPlaceholder: "국적을 선택해주세요",
+      natKR: "🇰🇷 대한민국", natUS: "🇺🇸 미국", natCN: "🇨🇳 중국", natJP: "🇯🇵 일본",
+      natTW: "🇹🇼 대만", natHK: "🇭🇰 홍콩", natSG: "🇸🇬 싱가포르", natTH: "🇹🇭 태국",
+      natVN: "🇻🇳 베트남", natRU: "🇷🇺 러시아", natOther: "🌏 기타",
+      formError: "모든 항목을 입력해주세요.",
+      formSendError: "전송에 실패했습니다. 잠시 후 다시 시도해주세요.",
+      submitBtn: "문의 제출하기",
+      formNote: "* 남겨주신 정보는 예약 상담 목적으로만 사용됩니다.",
+      successTitle: "문의가 접수되었습니다",
+      successDesc: "영업시간 내에 선택하신 메신저로 예약 안내를 드리겠습니다.",
+      ctaText: "📩 예약 문의하기"
+    },
+    en: {
+      collabSub: "Exclusively for guests of UH.SUITE SEOUL INSADONG",
+      collabTitle: "Premium Beauty Voucher",
+      sec1Eyebrow: "PART 1 · Mark View Free Trial",
+      sec1Title: "Mark View Precision Skin Diagnosis Program",
+      sec1Desc: "An 18-megapixel AI camera with 4 light sources precisely captures and analyzes your skin from surface to depth, letting you check your current skin condition with objective data.",
+      deviceTagline: "AI Precision Skin Diagnosis Camera",
+      statNum1: "18M", statLabel1: "Megapixels",
+      statNum2: "4", statLabel2: "Light Sources",
+      statLabel3: "AI Analysis",
+      diagName1: "Pigmentation", diagName2: "Pore Condition", diagName3: "Wrinkles &amp; Elasticity", diagName4: "Moisture &amp; Oil",
+      diagSub: "Sample Result",
+      reportTitle: "Sample Diagnosis Report",
+      reportNote: "* Sample data for illustration only — actual results are provided after your scan.",
+      termsEyebrow: "Terms of Use",
+      termsLi1: "This voucher is an exclusive benefit for guests of UH.SUITE SEOUL INSADONG and may not be transferred or sold to others.",
+      termsLi2: "This program operates by reservation only, so please contact the clinic in advance to book before your visit.",
+      termsLi3: "If additional individual medical procedures or prescriptions are recommended after the diagnosis, extra charges may apply.",
+      sec2Eyebrow: "PART 2 · Clinic Treatment Discount",
+      sec2Title: "Exclusive Treatment Benefits for Guests",
+      badgeSoon: "Details to be announced",
+      procName: "Treatment TBA",
+      procSub: "Details will be updated soon",
+      pctLabel: "OFF",
+      infoEyebrow: "Usage Information",
+      infoK1: "Inquiries", infoK2: "Hours", infoK3: "Valid Period", infoK4: "Location",
+      infoV2: "Mon-Fri 10:00 - 21:00<br />Sat-Sun 10:00 - 19:00",
+      infoV3: "7 days from check-in",
+      infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
+      footerLine2: "This page was created exclusively to introduce the hotel guest voucher program.",
+      leadEyebrow: "RESERVATION",
+      leadTitle: "Leave a Booking Inquiry",
+      leadDesc: "Leave your details below and we will reach out on your preferred messenger to arrange your visit.",
+      labelName: "Name",
+      phName: "Your name",
+      labelMessenger: "Preferred Messenger",
+      msgWhatsapp: "WhatsApp", msgLine: "LINE", msgWechat: "WeChat", msgKakao: "KakaoTalk",
+      labelContact: "Messenger ID · Phone",
+      phContactDefault: "Enter your ID for the selected messenger",
+      phContactPhone: "Phone number (with country code)",
+      phContactId: "Your messenger ID",
+      labelNationality: "Nationality",
+      natPlaceholder: "Select your nationality",
+      natKR: "🇰🇷 South Korea", natUS: "🇺🇸 United States", natCN: "🇨🇳 China", natJP: "🇯🇵 Japan",
+      natTW: "🇹🇼 Taiwan", natHK: "🇭🇰 Hong Kong", natSG: "🇸🇬 Singapore", natTH: "🇹🇭 Thailand",
+      natVN: "🇻🇳 Vietnam", natRU: "🇷🇺 Russia", natOther: "🌏 Other",
+      formError: "Please fill in all fields.",
+      formSendError: "Failed to send. Please try again shortly.",
+      submitBtn: "Submit Inquiry",
+      formNote: "* Your information will only be used for reservation assistance.",
+      successTitle: "Your inquiry has been received",
+      successDesc: "We will contact you on your chosen messenger during business hours.",
+      ctaText: "📩 Leave an Inquiry"
+    },
+    zh: {
+      collabSub: "专为 UH.SUITE SEOUL INSADONG 住客打造",
+      collabTitle: "尊享美容礼券",
+      sec1Eyebrow: "PART 1· Mark View 免费体验券",
+      sec1Title: "Mark View 精密皮肤诊断项目",
+      sec1Desc: "1,800万像素、4种光源的AI摄像头可对皮肤表层至深层进行精密拍摄与分析,让您以客观数据确认当前的皮肤状态。",
+      deviceTagline: "AI 精密皮肤诊断摄像头",
+      statNum1: "1,800万", statLabel1: "像素",
+      statNum2: "4种", statLabel2: "光源系统",
+      statLabel3: "精密分析",
+      diagName1: "色素·瑕疵", diagName2: "毛孔状态", diagName3: "皱纹·弹力", diagName4: "水分·油分",
+      diagSub: "诊断示例",
+      reportTitle: "诊断报告示例",
+      reportNote: "* 以下为示例数据,实际结果将在拍摄后提供。",
+      termsEyebrow: "使用条款",
+      termsLi1: "本礼券为 UH.SUITE SEOUL INSADONG 住客专享福利,不可转让或转卖给他人。",
+      termsLi2: "本项目采用预约制,请务必在到访前致电院内提前预约。",
+      termsLi3: "诊断后如另行进行个别医疗施术或处方,可能产生额外费用。",
+      sec2Eyebrow: "PART 2· 医院项目折扣券",
+      sec2Title: "住客专享施术优惠",
+      badgeSoon: "详细内容即将公布",
+      procName: "项目名称待定",
+      procSub: "详细内容即将更新",
+      pctLabel: "折扣",
+      infoEyebrow: "使用指南",
+      infoK1: "使用咨询", infoK2: "营业时间", infoK3: "使用期限", infoK4: "医院位置",
+      infoV2: "周一至周五 10:00 - 21:00<br />周六至周日 10:00 - 19:00",
+      infoV3: "入住当天起7天内",
+      infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
+      footerLine2: "本页面专为住客专享礼券介绍而制作。",
+      leadEyebrow: "RESERVATION",
+      leadTitle: "留下预约咨询",
+      leadDesc: "请留下以下信息,我们将通过您选择的通讯软件与您联系,协助安排预约。",
+      labelName: "姓名",
+      phName: "请输入姓名",
+      labelMessenger: "希望联系的通讯软件",
+      msgWhatsapp: "WhatsApp", msgLine: "LINE", msgWechat: "微信", msgKakao: "KakaoTalk",
+      labelContact: "通讯软件ID · 电话",
+      phContactDefault: "请输入所选通讯软件的ID",
+      phContactPhone: "请输入电话号码(含国家区号)",
+      phContactId: "请输入您的通讯软件ID",
+      labelNationality: "国家/地区",
+      natPlaceholder: "请选择国家/地区",
+      natKR: "🇰🇷 韩国", natUS: "🇺🇸 美国", natCN: "🇨🇳 中国", natJP: "🇯🇵 日本",
+      natTW: "🇹🇼 台湾", natHK: "🇭🇰 香港", natSG: "🇸🇬 新加坡", natTH: "🇹🇭 泰国",
+      natVN: "🇻🇳 越南", natRU: "🇷🇺 俄罗斯", natOther: "🌏 其他",
+      formError: "请填写所有项目。",
+      formSendError: "发送失败,请稍后重试。",
+      submitBtn: "提交咨询",
+      formNote: "* 您留下的信息仅用于预约咨询。",
+      successTitle: "咨询已提交",
+      successDesc: "我们将在营业时间内通过您选择的通讯软件与您联系。",
+      ctaText: "📩 预约咨询"
+    },
+    ja: {
+      collabSub: "UH.SUITE SEOUL INSADONG ご宿泊のお客様限定",
+      collabTitle: "プレミアムビューティーバウチャー",
+      sec1Eyebrow: "PART 1・マークビュー 無料体験券",
+      sec1Title: "マークビュー精密皮膚診断プログラム",
+      sec1Desc: "1,800万画素・4灯光源のAIカメラが肌の表面から内部までを精密に撮影・分析し、現在の肌状態を客観的なデータで確認できるプログラムです。",
+      deviceTagline: "AI精密皮膚診断カメラ",
+      statNum1: "1,800万", statLabel1: "画素",
+      statNum2: "4灯", statLabel2: "光源システム",
+      statLabel3: "精密分析",
+      diagName1: "色素・シミ", diagName2: "毛穴の状態", diagName3: "しわ・弾力", diagName4: "水分・油分",
+      diagSub: "診断例",
+      reportTitle: "診断レポート例",
+      reportNote: "※ サンプルデータです。実際の結果は撮影後にご提供いたします。",
+      termsEyebrow: "利用規約",
+      termsLi1: "本バウチャーは UH.SUITE SEOUL INSADONG ご宿泊のお客様限定特典であり、他者への譲渡および販売はできません。",
+      termsLi2: "本プログラムは完全予約制のため、ご来院前に必ずクリニックまでご予約のお問い合わせをお願いいたします。",
+      termsLi3: "診断後、追加で個別の医療施術や処方が行われる場合、別途費用が発生することがございます。",
+      sec2Eyebrow: "PART 2・クリニック施術割引券",
+      sec2Title: "宿泊者限定施術特典",
+      badgeSoon: "詳細は追ってお知らせします",
+      procName: "施術名 未定",
+      procSub: "詳細は追って更新予定",
+      pctLabel: "割引",
+      infoEyebrow: "ご利用案内",
+      infoK1: "お問い合わせ", infoK2: "営業時間", infoK3: "利用期間", infoK4: "クリニックの場所",
+      infoV2: "月〜金 10:00 - 21:00<br />土・日 10:00 - 19:00",
+      infoV3: "チェックイン日から7日間",
+      infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
+      footerLine2: "本ページは宿泊者限定バウチャーのご案内のために制作されました。",
+      leadEyebrow: "RESERVATION",
+      leadTitle: "予約のお問い合わせ",
+      leadDesc: "以下の情報をご記入いただければ、ご希望のメッセージアプリよりご予約のご案内をいたします。",
+      labelName: "お名前",
+      phName: "お名前をご入力ください",
+      labelMessenger: "ご希望の連絡アプリ",
+      msgWhatsapp: "WhatsApp", msgLine: "LINE", msgWechat: "WeChat", msgKakao: "カカオトーク",
+      labelContact: "メッセンジャーID · 電話番号",
+      phContactDefault: "選択したアプリのIDをご入力ください",
+      phContactPhone: "電話番号をご入力ください(国番号を含む)",
+      phContactId: "メッセンジャーIDをご入力ください",
+      labelNationality: "国籍",
+      natPlaceholder: "国籍をお選びください",
+      natKR: "🇰🇷 韓国", natUS: "🇺🇸 アメリカ", natCN: "🇨🇳 中国", natJP: "🇯🇵 日本",
+      natTW: "🇹🇼 台湾", natHK: "🇭🇰 香港", natSG: "🇸🇬 シンガポール", natTH: "🇹🇭 タイ",
+      natVN: "🇻🇳 ベトナム", natRU: "🇷🇺 ロシア", natOther: "🌏 その他",
+      formError: "すべての項目をご入力ください。",
+      formSendError: "送信に失敗しました。しばらくしてから再度お試しください。",
+      submitBtn: "送信する",
+      formNote: "* ご記入いただいた情報はご予約のご案内のみに使用いたします。",
+      successTitle: "お問い合わせを受け付けました",
+      successDesc: "営業時間内に、ご希望のメッセージアプリよりご案内いたします。",
+      ctaText: "📩 予約のお問い合わせ"
+    }
+  };
 
-  links.forEach(link => {
-    link.addEventListener('click', () => {
-      const target = link.dataset.target;
+  var currentLang = 'ko';
 
-      links.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
+  function setLang(lang) {
+    var dict = translations[lang];
+    if (!dict) return;
 
-      panels.forEach(p => p.classList.remove('show'));
-      document.getElementById(target).classList.add('show');
+    currentLang = lang;
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) {
+        el.innerHTML = dict[key];
+      }
+    });
+
+    // placeholder 속성 번역 (data-i18n-ph)
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-ph');
+      if (dict[key] !== undefined) {
+        el.placeholder = dict[key];
+      }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    document.documentElement.setAttribute('lang', lang);
+
+    updateContactPlaceholder();
+  }
+
+  /* ===================================================================
+     [리드 폼 → Supabase 연동 설정]  (docs/lead-app/PLAN.md §5)
+
+     제출된 리드는 Supabase(obliv-foreigner) REST API로 직접 INSERT 됩니다.
+       POST {LEAD_ENDPOINT}  = {SUPABASE_URL}/rest/v1/leads
+       headers: apikey / Authorization: Bearer / Prefer: return=minimal
+
+     폼이 보내는 JSON (컬럼명과 동일한 snake_case):
+     {
+       "name":         "홍길동",
+       "messenger":    "whatsapp" | "line" | "wechat" | "kakaotalk",
+       "contact":      "메신저 ID 또는 전화번호",
+       "nationality":  "KR" 등 ISO 코드 ("OTHER" 포함),
+       "lang":         "ko" | "en" | "zh" | "ja",   // 제출 당시 페이지 언어
+       "source":       "voucher",
+       "submitted_at": "2026-08-19T12:34:56.000Z"
+     }
+
+     SUPABASE_KEY는 공개용(publishable) 키이며, RLS에 의해 이 키로 가능한
+     일은 "leads INSERT" 하나뿐입니다 — 조회/수정/삭제 불가
+     (supabase/migrations/0001_leads.sql).
+
+     ※ LEAD_ENDPOINT를 비우면 서버 저장 없이 브라우저 콘솔과 해당 기기의
+        localStorage에만 기록되는 테스트 모드로 동작합니다(기존 동작 유지).
+     ※ 401 오류가 나면 SUPABASE_KEY를 legacy anon(JWT) 키로 교체하세요
+        (docs/lead-app/BRIEF.md CONFIG · DEV-NOTES.md 참고).
+     =================================================================== */
+  var LEAD_ENDPOINT = "https://dqnjbheejjtoitrbzxmp.supabase.co/rest/v1/leads";
+  var SUPABASE_KEY = "sb_publishable_4z1mUiKCaP67VRYyjoGGig_9JukGA_1";
+
+  function selectedMessenger() {
+    var checked = document.querySelector('#msgrGrid input:checked');
+    return checked ? checked.value : "";
+  }
+
+  // 선택한 메신저에 따라 연락처 입력칸 안내문구 변경 (왓츠앱=전화번호, 나머지=ID)
+  function updateContactPlaceholder() {
+    var input = document.getElementById('leadContact');
+    if (!input) return;
+    var dict = translations[currentLang];
+    var m = selectedMessenger();
+    if (!m) input.placeholder = dict.phContactDefault;
+    else if (m === 'whatsapp') input.placeholder = dict.phContactPhone;
+    else input.placeholder = dict.phContactId;
+  }
+
+  function setFieldInvalid(id, invalid) {
+    document.getElementById(id).classList.toggle('invalid', invalid);
+  }
+
+  // 메신저 선택 칩
+  document.querySelectorAll('#msgrGrid input[type="radio"]').forEach(function (input) {
+    input.addEventListener('change', function () {
+      document.querySelectorAll('#msgrGrid .msgr-chip').forEach(function (chip) {
+        chip.classList.toggle('checked', chip.querySelector('input').checked);
+      });
+      setFieldInvalid('fieldMsgr', false);
+      updateContactPlaceholder();
     });
   });
+
+  // 국적 셀렉트: 미선택 시 흐린 색상 유지
+  var natSelect = document.getElementById('leadNationality');
+  natSelect.addEventListener('change', function () {
+    natSelect.classList.toggle('placeholder', !natSelect.value);
+    setFieldInvalid('fieldNat', false);
+  });
+
+  document.getElementById('leadName').addEventListener('input', function () { setFieldInvalid('fieldName', false); });
+  document.getElementById('leadContact').addEventListener('input', function () { setFieldInvalid('fieldContact', false); });
+
+  // 폼 제출
+  document.getElementById('leadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById('leadName').value.trim();
+    var messenger = selectedMessenger();
+    var contact = document.getElementById('leadContact').value.trim();
+    var nationality = natSelect.value;
+
+    setFieldInvalid('fieldName', !name);
+    setFieldInvalid('fieldMsgr', !messenger);
+    setFieldInvalid('fieldContact', !contact);
+    setFieldInvalid('fieldNat', !nationality);
+
+    var errorEl = document.getElementById('formError');
+    if (!name || !messenger || !contact || !nationality) {
+      errorEl.textContent = translations[currentLang].formError;
+      errorEl.hidden = false;
+      return;
+    }
+    errorEl.hidden = true;
+
+    var payload = {
+      name: name,
+      messenger: messenger,
+      contact: contact,
+      nationality: nationality,
+      lang: currentLang,
+      source: 'voucher',
+      submitted_at: new Date().toISOString()   // DB 컬럼명(snake_case)과 일치
+    };
+
+    var btn = document.getElementById('submitBtn');
+
+    function showSuccess() {
+      document.getElementById('leadCard').hidden = true;
+      document.getElementById('leadSuccess').hidden = false;
+    }
+
+    if (LEAD_ENDPOINT) {
+      btn.disabled = true;
+      fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Prefer': 'return=minimal'   // anon은 SELECT 불가 — 삽입 후 행 반환 금지 (PLAN §5.4)
+        },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        showSuccess();
+      }).catch(function () {
+        btn.disabled = false;
+        errorEl.textContent = translations[currentLang].formSendError;
+        errorEl.hidden = false;
+      });
+    } else {
+      // 웹앱 미연동 상태: 콘솔 + 이 브라우저의 localStorage에만 기록됩니다.
+      console.log('[LEAD:미연동]', payload);
+      try {
+        var saved = JSON.parse(localStorage.getItem('obliv_leads') || '[]');
+        saved.push(payload);
+        localStorage.setItem('obliv_leads', JSON.stringify(saved));
+      } catch (err) {}
+      showSuccess();
+    }
+  });
+
+  // 폼 섹션이 화면에 보이면 하단 고정 CTA 숨김 (제출 버튼을 가리지 않도록)
+  var stickyCta = document.getElementById('stickyCta');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      stickyCta.classList.toggle('hide', entries[0].isIntersecting);
+    }, { threshold: 0.25 }).observe(document.getElementById('lead'));
+  }
+
+  // 페이지 로드시 한국어 사전 값으로 강제 동기화 (HTML 원문과 사전이 어긋나는 것을 방지)
+  setLang('ko');
 </script>
 
 </body>

@@ -8,8 +8,8 @@
 
 | 구성 요소 | URL | 상태 |
 |---|---|---|
-| 리드 폼 (투숙객용) | https://burwoodjoy.github.io/voucher.html | 라이브 — 새 전송부(Supabase REST 직접 INSERT) 서빙 확인 |
-| 관리자 대시보드 (마케터용) | https://burwoodjoy.github.io/admin/ | 라이브 — HTTP 200 |
+| 리드 폼 (투숙객용) | https://burwoodjoy.github.io/ (§7 변경 — 메인으로 승격, 구 /voucher.html 은 리다이렉트) | 라이브 |
+| 관리자 대시보드 (마케터용) | `/admin-98b2611118b00ac1/` (§7 변경 — 난수 경로로 이동, 구 /admin/ 은 404) | 라이브 |
 | 수집 API (PostgREST) | `POST https://dqnjbheejjtoitrbzxmp.supabase.co/rest/v1/leads` | 동작 — 201 확인 |
 | DB | Supabase obliv-foreigner (ref `dqnjbheejjtoitrbzxmp`, ap-northeast-2) `public.leads` | 마이그레이션 적용 완료 |
 
@@ -101,3 +101,17 @@ Edge Function은 **없음**(PLAN §5.1 확정 — PostgREST 직접 insert). 배�
 **수용한 트레이드오프** — 대시보드 URL과 anon 키는 공개 레포에 있으므로, URL을 아는 누구나 리드를 조회·수정할 수 있다. 사용자가 데이터 민감도 대비 편의를 우선해 명시적으로 결정함. 삭제는 여전히 차단되어 데이터 유실은 방지된다. 되돌리려면 0002 마이그레이션을 역적용(파일 상단 주석 참고)하고 admin 페이지에 로그인을 복원하면 된다.
 
 **무로그인 검증(2026-08-19, 라이브 DB 대상)** — 테스트 행 삽입 후: ① 로그인 화면 없이 접속 즉시 목록 표시 ② 카드 UI 정상(메신저 아이콘·복사·KST) ③ 상태 new→contacted 변경이 DB 반영 ④ 메모 저장이 DB 반영 ⑤ 콘솔 에러 0 ⑥ 테스트 행 SQL 삭제로 정리(최종 0행). 모두 PASS.
+
+## 7. 변경 이력 — 2026-08-19: 바우처를 메인으로 승격 · 어드민 난수 경로 이동 (사용자 결정)
+
+**1) 바우처 = 메인 페이지**
+
+- `index.html`(기존 마케터 연습용 페이지)을 바우처 페이지 내용으로 교체 — 이제 `https://burwoodjoy.github.io/` 접속 시 바우처가 바로 보인다. 구 연습 페이지는 git 이력에만 남음.
+- 기존에 공유된 링크가 깨지지 않도록 `/voucher.html` 은 `/` 로 즉시 리다이렉트하는 스텁으로 교체.
+
+**2) 어드민 난수 경로**
+
+- `/admin/` → `/admin-98b2611118b00ac1/` 로 디렉토리 이동(토큰: `openssl rand -hex 8`). 구 `/admin/` 은 삭제되어 404 — 리다이렉트를 두면 비밀 경로가 노출되므로 의도적으로 두지 않음. 마케터는 새 URL을 즐겨찾기로 사용.
+- 페이지의 `noindex, nofollow` 메타는 유지되고, 공개 페이지 어디에서도 어드민 경로로 링크하지 않는다.
+- **한계(사용자 인지 필요)**: 이 레포는 공개 저장소이므로 GitHub에서 레포 파일 구조를 열어보면 경로를 알 수 있다. 난수 경로는 "주소 추측으로 들어오는 것"을 막는 장치이며, 완전한 접근 통제가 필요해지면 로그인 복원(§6 되돌리기)이 정답이다.
+- 경로 변경(토큰 재발급)은 디렉토리 이름만 바꿔 커밋하면 된다.
