@@ -7,7 +7,7 @@
 <title>OBLIV LEADS — 리드 관리</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   /* voucher.html 과 동일한 디자인 토큰 (docs/lead-app/PLAN.md §7.1) */
@@ -31,12 +31,12 @@
     margin: 0;
     background: var(--black);
     color: var(--ivory);
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard Variable', Pretendard, sans-serif;
     font-weight: 300;
     line-height: 1.7;
   }
 
-  .display { font-family: 'Cormorant Garamond', serif; }
+  .display { font-weight: 600; letter-spacing: 1px; }
 
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 18px 60px; }
 
@@ -117,6 +117,19 @@
   }
   .btn-ghost:active { transform: scale(0.98); }
   .btn-ghost:disabled { opacity: 0.5; cursor: default; }
+
+  /* 삭제 버튼 — 1차 클릭 시 '정말 삭제' 확인 상태(armed)로 전환 */
+  .btn-del {
+    border-color: rgba(224, 138, 122, 0.45);
+    color: var(--danger);
+    margin-left: auto;
+  }
+  .btn-del.armed {
+    background: #c4604f;
+    border-color: #c4604f;
+    color: #fff;
+    font-weight: 700;
+  }
 
   /* ===== 앱 헤더 ===== */
   .app-head {
@@ -509,6 +522,7 @@
         '<div class="li-actions">' +
           '<span class="lab">상태</span>' +
           '<div class="select-wrap"><select class="select-input status-sel" aria-label="상태 변경">' + statusOpts + '</select></div>' +
+          '<button type="button" class="btn-ghost btn-del" aria-label="리드 삭제">삭제</button>' +
         '</div>' +
         '<div class="li-memo">' +
           '<textarea class="memo-input" maxlength="2000" placeholder="관리자 메모 (예: 8/21 15시 예약 확정)">' + esc(lead.admin_memo) + '</textarea>' +
@@ -543,7 +557,39 @@
     if (copyBtn) { copyContact(copyBtn); return; }
     var saveBtn = e.target.closest('.memo-save');
     if (saveBtn) { onMemoSave(saveBtn); return; }
+    var delBtn = e.target.closest('.btn-del');
+    if (delBtn) { onDelete(delBtn); return; }
   });
+
+  /* 삭제: 1차 클릭은 확인 상태(4초 뒤 자동 해제), 2차 클릭에 실제 삭제 — 실수 방지 */
+  async function onDelete(btn) {
+    var card = btn.closest('.lead-item');
+    var id = Number(card.getAttribute('data-id'));
+    if (!btn.classList.contains('armed')) {
+      btn.classList.add('armed');
+      btn.textContent = '정말 삭제';
+      clearTimeout(btn._t);
+      btn._t = setTimeout(function () {
+        btn.classList.remove('armed');
+        btn.textContent = '삭제';
+      }, 4000);
+      return;
+    }
+    clearTimeout(btn._t);
+    btn.disabled = true;
+    var res = await sb.from('leads').delete().eq('id', id);
+    if (res.error) {
+      btn.disabled = false;
+      btn.classList.remove('armed');
+      btn.textContent = '삭제';
+      toast('삭제에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
+    allLeads = allLeads.filter(function (l) { return l.id !== id; });
+    renderChips();
+    renderList();
+    toast('#' + id + ' 리드를 삭제했습니다');
+  }
 
   async function onStatusChange(sel) {
     var card = sel.closest('.lead-item');

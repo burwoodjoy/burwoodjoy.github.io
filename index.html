@@ -6,7 +6,9 @@
 <title>OBLIV × UH.SUITE 투숙객 전용 바우처</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Gowun+Batang:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<!-- 기본 서체: Pretendard (한글·라틴). 중/일/태국어 글자는 Noto 폰트로 폴백 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet" />
 <style>
   :root {
     --black: #0c0c0e;
@@ -28,14 +30,15 @@
     margin: 0;
     background: var(--black);
     color: var(--ivory);
-    font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+    font-family: 'Pretendard Variable', Pretendard, 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans Thai', sans-serif;
     font-weight: 300;
     line-height: 1.7;
     padding-bottom: 84px; /* space for sticky CTA */
   }
 
-  .serif { font-family: 'Gowun Batang', 'Noto Serif SC', 'Noto Serif JP', serif; font-weight: 700; }
-  .display { font-family: 'Cormorant Garamond', serif; }
+  /* 프리텐다드 전환: 세리프 악센트 대신 굵기·자간으로 위계 표현 */
+  .serif { font-weight: 700; }
+  .display { font-weight: 600; letter-spacing: 1px; }
 
   .wrap { max-width: 480px; margin: 0 auto; padding: 0 22px; }
 
@@ -63,7 +66,7 @@
     padding: 7px 13px;
     border-radius: 999px;
     cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: inherit;
     transition: all 0.15s ease;
   }
   .lang-btn.active {
@@ -100,7 +103,7 @@
     flex-wrap: wrap;
   }
   .collab-lockup .brand {
-    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
     font-size: 19px;
     letter-spacing: 1.5px;
     color: var(--ivory);
@@ -252,7 +255,7 @@
     object-fit: contain;
   }
   .device-name {
-    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
     font-size: 26px;
     letter-spacing: 1px;
     color: var(--gold-light);
@@ -277,7 +280,7 @@
     background: var(--charcoal-2);
   }
   .stat-chip .num {
-    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
     font-size: 21px;
     color: var(--gold);
     display: block;
@@ -423,7 +426,7 @@
     border-radius: 10px;
   }
   .procedure-discount .pct {
-    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
     font-size: 18px;
     color: var(--gold);
   }
@@ -662,6 +665,7 @@
     <button class="lang-btn" data-lang="en" onclick="setLang('en')">ENG</button>
     <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
     <button class="lang-btn" data-lang="ja" onclick="setLang('ja')">日本語</button>
+    <button class="lang-btn" data-lang="th" onclick="setLang('th')">ไทย</button>
   </div>
 
   <!-- ===== 협업 헤더 ===== -->
@@ -962,7 +966,7 @@
       sec1Title: "Mark View Precision Skin Diagnosis Program",
       sec1Desc: "An 18-megapixel AI camera with 4 light sources precisely captures and analyzes your skin from surface to depth, letting you check your current skin condition with objective data.",
       deviceTagline: "AI Precision Skin Diagnosis Camera",
-      statNum1: "18M", statLabel1: "Megapixels",
+      statNum1: "18", statLabel1: "Megapixels",
       statNum2: "4", statLabel2: "Light Sources",
       statLabel3: "AI Analysis",
       diagName1: "Pigmentation", diagName2: "Pore Condition", diagName3: "Wrinkles &amp; Elasticity", diagName4: "Moisture &amp; Oil",
@@ -1012,35 +1016,35 @@
     zh: {
       collabSub: "专为 UH.SUITE SEOUL INSADONG 住客打造",
       collabTitle: "尊享美容礼券",
-      sec1Eyebrow: "PART 1· Mark View 免费体验券",
-      sec1Title: "Mark View 精密皮肤诊断项目",
-      sec1Desc: "1,800万像素、4种光源的AI摄像头可对皮肤表层至深层进行精密拍摄与分析,让您以客观数据确认当前的皮肤状态。",
-      deviceTagline: "AI 精密皮肤诊断摄像头",
+      sec1Eyebrow: "PART 1 · Mark View 免费体验券",
+      sec1Title: "Mark View 精密皮肤检测项目",
+      sec1Desc: "搭载4种光源的1,800万像素AI相机,从皮肤表层到深层进行精密拍摄与分析,让您通过客观数据了解当前的肌肤状态。",
+      deviceTagline: "AI精密皮肤检测相机",
       statNum1: "1,800万", statLabel1: "像素",
       statNum2: "4种", statLabel2: "光源系统",
       statLabel3: "精密分析",
-      diagName1: "色素·瑕疵", diagName2: "毛孔状态", diagName3: "皱纹·弹力", diagName4: "水分·油分",
-      diagSub: "诊断示例",
-      reportTitle: "诊断报告示例",
-      reportNote: "* 以下为示例数据,实际结果将在拍摄后提供。",
+      diagName1: "色素·瑕疵", diagName2: "毛孔状态", diagName3: "皱纹·弹性", diagName4: "水分·油分",
+      diagSub: "检测示例",
+      reportTitle: "检测报告示例",
+      reportNote: "* 以上为示例数据,实际结果将在拍摄后提供。",
       termsEyebrow: "使用条款",
       termsLi1: "本礼券为 UH.SUITE SEOUL INSADONG 住客专享福利,不可转让或转卖给他人。",
-      termsLi2: "本项目采用预约制,请务必在到访前致电院内提前预约。",
-      termsLi3: "诊断后如另行进行个别医疗施术或处方,可能产生额外费用。",
-      sec2Eyebrow: "PART 2· 医院项目折扣券",
-      sec2Title: "住客专享施术优惠",
+      termsLi2: "本项目采用预约制,到访前请务必联系诊所提前预约。",
+      termsLi3: "检测后如需进行额外的个别医疗项目或处方,可能会产生额外费用。",
+      sec2Eyebrow: "PART 2 · 诊所项目折扣券",
+      sec2Title: "住客专享项目优惠",
       badgeSoon: "详细内容即将公布",
       procName: "项目名称待定",
       procSub: "详细内容即将更新",
       pctLabel: "折扣",
       infoEyebrow: "使用指南",
-      infoK1: "使用咨询", infoK2: "营业时间", infoK3: "使用期限", infoK4: "医院位置",
+      infoK1: "使用咨询", infoK2: "营业时间", infoK3: "使用期限", infoK4: "诊所位置",
       infoV2: "周一至周五 10:00 - 21:00<br />周六至周日 10:00 - 19:00",
       infoV3: "入住当天起7天内",
       infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower 1F)",
-      footerLine2: "本页面专为住客专享礼券介绍而制作。",
+      footerLine2: "本页面专为介绍住客专享礼券而制作。",
       leadEyebrow: "RESERVATION",
-      leadTitle: "留下预约咨询",
+      leadTitle: "填写预约咨询",
       leadDesc: "请留下以下信息,我们将通过您选择的通讯软件与您联系,协助安排预约。",
       labelName: "姓名",
       phName: "请输入姓名",
@@ -1068,10 +1072,10 @@
       collabTitle: "プレミアムビューティーバウチャー",
       sec1Eyebrow: "PART 1・マークビュー 無料体験券",
       sec1Title: "マークビュー精密皮膚診断プログラム",
-      sec1Desc: "1,800万画素・4灯光源のAIカメラが肌の表面から内部までを精密に撮影・分析し、現在の肌状態を客観的なデータで確認できるプログラムです。",
+      sec1Desc: "1,800万画素・4種の光源を備えたAIカメラが肌の表面から内部までを精密に撮影・分析し、現在の肌状態を客観的なデータで確認できるプログラムです。",
       deviceTagline: "AI精密皮膚診断カメラ",
       statNum1: "1,800万", statLabel1: "画素",
-      statNum2: "4灯", statLabel2: "光源システム",
+      statNum2: "4種", statLabel2: "光源システム",
       statLabel3: "精密分析",
       diagName1: "色素・シミ", diagName2: "毛穴の状態", diagName3: "しわ・弾力", diagName4: "水分・油分",
       diagSub: "診断例",
@@ -1116,6 +1120,60 @@
       successTitle: "お問い合わせを受け付けました",
       successDesc: "営業時間内に、ご希望のメッセージアプリよりご案内いたします。",
       ctaText: "📩 予約のお問い合わせ"
+    },
+    th: {
+      collabSub: "สิทธิพิเศษเฉพาะผู้เข้าพัก UH.SUITE SEOUL INSADONG เท่านั้น",
+      collabTitle: "บัตรกำนัลความงามระดับพรีเมียม",
+      sec1Eyebrow: "PART 1 · รับสิทธิ์ทดลอง Mark View ฟรี",
+      sec1Title: "โปรแกรมวิเคราะห์ผิวอย่างละเอียดด้วย Mark View",
+      sec1Desc: "กล้อง AI ความละเอียด 18 ล้านพิกเซล พร้อมแหล่งกำเนิดแสง 4 ชนิด ถ่ายและวิเคราะห์ผิวของคุณอย่างละเอียดตั้งแต่ชั้นผิวด้านบนจนถึงชั้นลึก ให้คุณเห็นสภาพผิวปัจจุบันเป็นข้อมูลที่เป็นรูปธรรม",
+      deviceTagline: "กล้องวิเคราะห์ผิว AI ความแม่นยำสูง",
+      statNum1: "18 ล้าน", statLabel1: "พิกเซล",
+      statNum2: "4 ชนิด", statLabel2: "แหล่งกำเนิดแสง",
+      statLabel3: "วิเคราะห์แม่นยำ",
+      diagName1: "จุดด่างดำ · ฝ้า", diagName2: "สภาพรูขุมขน", diagName3: "ริ้วรอย · ความยืดหยุ่น", diagName4: "ความชุ่มชื้น · ความมัน",
+      diagSub: "ตัวอย่างผลวิเคราะห์",
+      reportTitle: "ตัวอย่างรายงานผลวิเคราะห์",
+      reportNote: "* เป็นข้อมูลตัวอย่างเท่านั้น ผลลัพธ์จริงจะมอบให้หลังการถ่ายวิเคราะห์",
+      termsEyebrow: "เงื่อนไขการใช้บริการ",
+      termsLi1: "บัตรกำนัลนี้เป็นสิทธิพิเศษเฉพาะผู้เข้าพัก UH.SUITE SEOUL INSADONG ไม่สามารถโอนหรือขายต่อให้ผู้อื่นได้",
+      termsLi2: "ให้บริการแบบนัดหมายล่วงหน้าเท่านั้น กรุณาติดต่อคลินิกเพื่อจองคิวก่อนเข้ารับบริการ",
+      termsLi3: "หากมีการทำหัตถการหรือได้รับการสั่งจ่ายยาเพิ่มเติมหลังการวิเคราะห์ อาจมีค่าใช้จ่ายเพิ่มเติม",
+      sec2Eyebrow: "PART 2 · ส่วนลดหัตถการของคลินิก",
+      sec2Title: "สิทธิพิเศษด้านหัตถการสำหรับผู้เข้าพัก",
+      badgeSoon: "รายละเอียดจะประกาศเร็ว ๆ นี้",
+      procName: "ชื่อหัตถการ (เร็ว ๆ นี้)",
+      procSub: "รายละเอียดจะอัปเดตเร็ว ๆ นี้",
+      pctLabel: "ส่วนลด",
+      infoEyebrow: "ข้อมูลการใช้บริการ",
+      infoK1: "สอบถาม", infoK2: "เวลาทำการ", infoK3: "ระยะเวลาใช้สิทธิ์", infoK4: "ที่ตั้งคลินิก",
+      infoV2: "จันทร์-ศุกร์ 10:00 - 21:00<br />เสาร์-อาทิตย์ 10:00 - 19:00",
+      infoV3: "ภายใน 7 วันนับจากวันเช็คอิน",
+      infoV4: "93 Cheonggyecheon-ro, Jongno-gu, Seoul (Pagoda Tower ชั้น 1)",
+      footerLine2: "หน้านี้จัดทำขึ้นเพื่อแนะนำบัตรกำนัลสำหรับผู้เข้าพักโดยเฉพาะ",
+      leadEyebrow: "RESERVATION",
+      leadTitle: "ฝากข้อมูลเพื่อจองคิว",
+      leadDesc: "กรอกข้อมูลด้านล่าง แล้วเราจะติดต่อกลับผ่านแอปแชทที่คุณเลือกเพื่อช่วยจองคิวให้คุณ",
+      labelName: "ชื่อ",
+      phName: "กรุณากรอกชื่อของคุณ",
+      labelMessenger: "แอปแชทที่ต้องการให้ติดต่อกลับ",
+      msgWhatsapp: "WhatsApp", msgLine: "LINE", msgWechat: "WeChat", msgKakao: "KakaoTalk",
+      labelContact: "ไอดีแอปแชท · เบอร์โทร",
+      phContactDefault: "กรอกไอดีของแอปแชทที่เลือก",
+      phContactPhone: "กรอกเบอร์โทร (พร้อมรหัสประเทศ)",
+      phContactId: "กรอกไอดีแอปแชทของคุณ",
+      labelNationality: "สัญชาติ",
+      natPlaceholder: "เลือกสัญชาติของคุณ",
+      natKR: "🇰🇷 เกาหลีใต้", natUS: "🇺🇸 สหรัฐอเมริกา", natCN: "🇨🇳 จีน", natJP: "🇯🇵 ญี่ปุ่น",
+      natTW: "🇹🇼 ไต้หวัน", natHK: "🇭🇰 ฮ่องกง", natSG: "🇸🇬 สิงคโปร์", natTH: "🇹🇭 ไทย",
+      natVN: "🇻🇳 เวียดนาม", natRU: "🇷🇺 รัสเซีย", natOther: "🌏 อื่น ๆ",
+      formError: "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+      formSendError: "ส่งไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
+      submitBtn: "ส่งข้อมูล",
+      formNote: "* ข้อมูลของคุณจะใช้เพื่อการนัดหมายเท่านั้น",
+      successTitle: "ได้รับข้อมูลของคุณแล้ว",
+      successDesc: "เราจะติดต่อกลับผ่านแอปแชทที่คุณเลือกภายในเวลาทำการ",
+      ctaText: "📩 จองคิว / สอบถาม"
     }
   };
 
