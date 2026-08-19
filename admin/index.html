@@ -118,60 +118,6 @@
   .btn-ghost:active { transform: scale(0.98); }
   .btn-ghost:disabled { opacity: 0.5; cursor: default; }
 
-  /* ===== 로그인 화면 ===== */
-  .login-screen {
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 18px;
-  }
-  .login-card {
-    width: 100%;
-    max-width: 380px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 38px 26px 32px;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(201,167,94,0.14), transparent 65%),
-      var(--charcoal-2);
-  }
-  .brand-title {
-    text-align: center;
-    font-size: 30px;
-    letter-spacing: 4px;
-    color: var(--gold-light);
-    line-height: 1.3;
-  }
-  .brand-sub {
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-    margin: 6px 0 0;
-  }
-  .gold-rule { width: 46px; height: 1px; background: var(--gold); margin: 20px auto 26px; }
-  .login-field { margin-bottom: 14px; }
-  .login-field label {
-    display: block;
-    font-size: 12.5px;
-    letter-spacing: 1px;
-    color: var(--gold);
-    margin-bottom: 8px;
-  }
-  .login-error {
-    font-size: 12.5px;
-    color: var(--danger);
-    margin: 2px 0 12px;
-  }
-  #loginBtn { width: 100%; margin-top: 6px; }
-  .login-note {
-    margin: 16px 0 0;
-    font-size: 11px;
-    color: #6f6a62;
-    text-align: center;
-  }
-
   /* ===== 앱 헤더 ===== */
   .app-head {
     display: flex;
@@ -332,38 +278,15 @@
 </head>
 <body>
 
-  <!-- ===== A. 로그인 화면 ===== -->
-  <div class="login-screen" id="viewLogin" hidden>
-    <div class="login-card">
-      <div class="brand-title display">OBLIV LEADS</div>
-      <p class="brand-sub">OBLIV CLINIC × UH.SUITE — 예약 문의 관리</p>
-      <div class="gold-rule"></div>
-      <form id="loginForm" novalidate>
-        <div class="login-field">
-          <label for="loginEmail">이메일</label>
-          <input class="text-input" type="email" id="loginEmail" autocomplete="username" placeholder="admin@example.com" />
-        </div>
-        <div class="login-field">
-          <label for="loginPw">비밀번호</label>
-          <input class="text-input" type="password" id="loginPw" autocomplete="current-password" placeholder="비밀번호" />
-        </div>
-        <div class="login-error" id="loginError" hidden></div>
-        <button type="submit" class="btn-primary" id="loginBtn">로그인</button>
-      </form>
-      <p class="login-note">관리자 전용 페이지입니다. 계정 문의는 운영 담당자에게 연락해주세요.</p>
-    </div>
-  </div>
-
-  <!-- ===== B. 리드 목록 화면 ===== -->
-  <div id="viewApp" hidden>
+  <!-- ===== 리드 목록 화면 (로그인 없음 — 접속 즉시 표시) ===== -->
+  <div id="viewApp">
     <div class="wrap">
 
       <header class="app-head">
         <div>
           <div class="t display">OBLIV LEADS</div>
-          <div class="who" id="whoEmail"></div>
+          <div class="who">OBLIV CLINIC × UH.SUITE — 예약 문의 관리</div>
         </div>
-        <button class="btn-ghost" id="logoutBtn">로그아웃</button>
       </header>
 
       <div class="chips" id="chips">
@@ -507,21 +430,6 @@
     });
   }
 
-  /* ===== 화면 전환 ===== */
-  function showLogin() {
-    $('viewApp').hidden = true;
-    $('viewLogin').hidden = false;
-    allLeads = [];
-    $('leadList').innerHTML = '';
-  }
-
-  function enterApp(session) {
-    $('whoEmail').textContent = (session && session.user && session.user.email) || '';
-    $('viewLogin').hidden = true;
-    $('viewApp').hidden = false;
-    loadLeads();
-  }
-
   /* ===== 데이터 로드 ===== */
   function setListState(state) { /* 'loading' | 'empty' | 'nomatch' | 'error' | 'list' */
     $('stateLoading').hidden = state !== 'loading';
@@ -532,6 +440,13 @@
   }
 
   async function loadLeads() {
+    if (!sb) {
+      /* supabase-js CDN 로드 실패 — 새로고침 유도 */
+      $('stateErrorMsg').textContent = '라이브러리(supabase-js) 로드에 실패했습니다. 네트워크 확인 후 다시 시도해주세요.';
+      setListState('error');
+      $('countLabel').textContent = '';
+      return;
+    }
     setListState('loading');
     var res = await sb.from('leads')
       .select('*')
@@ -727,7 +642,10 @@
 
   /* ===== 툴바 ===== */
   $('refreshBtn').addEventListener('click', loadLeads);
-  $('retryBtn').addEventListener('click', loadLeads);
+  $('retryBtn').addEventListener('click', function () {
+    if (!sb) { location.reload(); return; }   /* CDN 로드 실패였다면 재시도는 곧 새로고침 */
+    loadLeads();
+  });
 
   function csvCell(v) {
     var s = String(v == null ? '' : v);
@@ -758,56 +676,10 @@
     toast('CSV ' + rows.length + '건을 내려받았습니다');
   });
 
-  /* ===== 인증 ===== */
-  $('loginForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var errEl = $('loginError');
-    var btn = $('loginBtn');
-    var email = $('loginEmail').value.trim();
-    var pw = $('loginPw').value;
-    if (!email || !pw) {
-      errEl.textContent = '이메일과 비밀번호를 입력해주세요.';
-      errEl.hidden = false;
-      return;
-    }
-    errEl.hidden = true;
-    btn.disabled = true;
-    btn.textContent = '로그인 중…';
-    var res = await sb.auth.signInWithPassword({ email: email, password: pw });
-    btn.disabled = false;
-    btn.textContent = '로그인';
-    if (res.error) {
-      errEl.textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
-      errEl.hidden = false;
-      return;
-    }
-    $('loginPw').value = '';
-    enterApp(res.data.session);
-  });
-
-  $('logoutBtn').addEventListener('click', async function () {
-    try { await sb.auth.signOut(); } catch (e) { /* 세션이 이미 만료된 경우 등 — 무시 */ }
-    showLogin();
-  });
-
-  /* ===== 초기화 ===== */
-  (async function init() {
-    if (!sb) {
-      showLogin();
-      var errEl = $('loginError');
-      errEl.textContent = '라이브러리(supabase-js) 로드에 실패했습니다. 네트워크 확인 후 새로고침해주세요.';
-      errEl.hidden = false;
-      $('loginBtn').disabled = true;
-      return;
-    }
-    /* 다른 탭 로그아웃·세션 만료 시 로그인 화면으로 복귀 */
-    sb.auth.onAuthStateChange(function (event) {
-      if (event === 'SIGNED_OUT') showLogin();
-    });
-    var s = await sb.auth.getSession();
-    if (s.data && s.data.session) enterApp(s.data.session);
-    else showLogin();
-  })();
+  /* ===== 초기화 — 로그인 없음(2026-08-19 사용자 결정): 접속 즉시 목록 로드 =====
+     RLS가 anon 키에 SELECT/UPDATE를 허용한다 (supabase/migrations/0002_open_admin_access.sql).
+     DELETE는 여전히 API로 불가 — 실수로 리드가 지워지는 일은 없다. */
+  loadLeads();
 </script>
 
 </body>
