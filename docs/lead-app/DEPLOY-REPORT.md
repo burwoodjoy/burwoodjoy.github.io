@@ -131,3 +131,12 @@ Edge Function은 **없음**(PLAN §5.1 확정 — PostgREST 직접 insert). 배�
 **3) 폰트 프리텐다드 전환**
 
 - 메인·어드민 모두 기본 서체를 Pretendard Variable(jsdelivr CDN)로 교체. 세리프 악센트(Cormorant Garamond·Gowun Batang)는 제거하고 굵기·자간으로 위계 표현. 중/일/태국어 글자는 Noto Sans SC/JP/Thai 폴백으로 렌더링.
+
+## 9. 변경 이력 — 2026-08-19: 새 리드 Slack 알림 (봇 "호텔QR 상담신청")
+
+- 새 리드가 저장되는 순간 Slack 채널 `C0BQS9XT9DM`에 알림 발송 — 이름·메신저·연락처·국적/언어·접수시각(KST)·대시보드 링크 포함.
+- 구조: `0004_slack_notify_new_lead.sql` — leads AFTER INSERT 트리거 → `pg_net` 비동기 HTTP → Slack `chat.postMessage`. 별도 서버 없음, 폼 제출 속도 영향 없음, 알림 실패해도 리드 저장은 항상 성공.
+- **봇 토큰은 Supabase Vault**(`slack_bot_token`)에 암호화 저장 — 공개 레포에 미포함. 토큰 교체 방법은 0004 파일 상단 주석 참고.
+- 검증: 테스트 리드 INSERT → Slack API `200 / ok:true` 수신 확인 → 테스트 행 정리 완료.
+- 트러블슈팅 기록: pg_net은 `Content-Type: application/json`만 허용(`; charset=utf-8` 부착 시 P0001로 거부) — 초기 발송 실패의 원인이었음.
+- 발송 이력/실패 확인: Studio SQL에서 `select * from net._http_response order by id desc;`
